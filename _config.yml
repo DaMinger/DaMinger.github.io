@@ -5,10 +5,10 @@
 # Site
 title: DaMing's Notes
 subtitle:
-description: A blog that records life and work
+description:
 author: DaMing
 language: zh-Hans
-timezone:
+timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -71,6 +71,8 @@ pagination_dir: page
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
+plugins: 
+  hexo-generate-feed
 ## Themes: https://hexo.io/themes/
 theme: next
 
@@ -80,3 +82,13 @@ deploy:
   type: git
   repo: git@github.com:/DaMinger/DaMinger.github.io.git
   branch: master
+
+# 头像
+avatar: /images/avatar.png
+
+# Search
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
