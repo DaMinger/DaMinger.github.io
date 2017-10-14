@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://daminger.github.io/"/>
   <updated>2017-10-14T05:45:51.000Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://daminger.github.io/</id>
   
   <author>
     <name>DaMing</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>百度_工程师的六大意识</title>
-    <link href="http://yoursite.com/2017/10/14/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF_%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%85%AD%E5%A4%A7%E6%84%8F%E8%AF%86/"/>
-    <id>http://yoursite.com/2017/10/14/个人成长_工程师的六大意识/</id>
+    <link href="https://daminger.github.io/2017/10/14/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF_%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%85%AD%E5%A4%A7%E6%84%8F%E8%AF%86/"/>
+    <id>https://daminger.github.io/2017/10/14/个人成长_工程师的六大意识/</id>
     <published>2017-10-14T05:39:31.000Z</published>
     <updated>2017-10-14T05:45:51.000Z</updated>
     
@@ -39,19 +39,19 @@
     
     </summary>
     
-      <category term="工作技能" scheme="http://yoursite.com/categories/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
+      <category term="工作技能" scheme="https://daminger.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
     
     
-      <category term="个人成长" scheme="http://yoursite.com/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/"/>
+      <category term="个人成长" scheme="https://daminger.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/"/>
     
-      <category term="工作技能" scheme="http://yoursite.com/tags/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
+      <category term="工作技能" scheme="https://daminger.github.io/tags/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
     
   </entry>
   
   <entry>
     <title>读书笔记【炒股的智慧】</title>
-    <link href="http://yoursite.com/2017/10/10/book_%E7%82%92%E8%82%A1%E7%9A%84%E6%99%BA%E6%85%A7/"/>
-    <id>http://yoursite.com/2017/10/10/book_炒股的智慧/</id>
+    <link href="https://daminger.github.io/2017/10/10/book_%E7%82%92%E8%82%A1%E7%9A%84%E6%99%BA%E6%85%A7/"/>
+    <id>https://daminger.github.io/2017/10/10/book_炒股的智慧/</id>
     <published>2017-10-10T12:26:28.000Z</published>
     <updated>2017-10-10T13:53:20.000Z</updated>
     
@@ -70,21 +70,21 @@
     
     </summary>
     
-      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://daminger.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://daminger.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="投资" scheme="http://yoursite.com/tags/%E6%8A%95%E8%B5%84/"/>
+      <category term="投资" scheme="https://daminger.github.io/tags/%E6%8A%95%E8%B5%84/"/>
     
-      <category term="炒股" scheme="http://yoursite.com/tags/%E7%82%92%E8%82%A1/"/>
+      <category term="炒股" scheme="https://daminger.github.io/tags/%E7%82%92%E8%82%A1/"/>
     
   </entry>
   
   <entry>
     <title>读书笔记【高效能人士的七个习惯】</title>
-    <link href="http://yoursite.com/2017/10/09/book_%E9%AB%98%E6%95%88%E8%83%BD%E4%BA%BA%E5%A3%AB%E7%9A%84%E4%B8%83%E4%B8%AA%E4%B9%A0%E6%83%AF/"/>
-    <id>http://yoursite.com/2017/10/09/book_高效能人士的七个习惯/</id>
+    <link href="https://daminger.github.io/2017/10/09/book_%E9%AB%98%E6%95%88%E8%83%BD%E4%BA%BA%E5%A3%AB%E7%9A%84%E4%B8%83%E4%B8%AA%E4%B9%A0%E6%83%AF/"/>
+    <id>https://daminger.github.io/2017/10/09/book_高效能人士的七个习惯/</id>
     <published>2017-10-08T17:09:27.000Z</published>
     <updated>2017-10-08T17:18:54.000Z</updated>
     
@@ -106,19 +106,19 @@
     
     </summary>
     
-      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://daminger.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://daminger.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="个人成长" scheme="http://yoursite.com/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/"/>
+      <category term="个人成长" scheme="https://daminger.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/"/>
     
   </entry>
   
   <entry>
     <title>读书笔记【流星蝴蝶剑】</title>
-    <link href="http://yoursite.com/2017/10/05/book_%E6%B5%81%E6%98%9F%E8%9D%B4%E8%9D%B6%E5%89%91/"/>
-    <id>http://yoursite.com/2017/10/05/book_流星蝴蝶剑/</id>
+    <link href="https://daminger.github.io/2017/10/05/book_%E6%B5%81%E6%98%9F%E8%9D%B4%E8%9D%B6%E5%89%91/"/>
+    <id>https://daminger.github.io/2017/10/05/book_流星蝴蝶剑/</id>
     <published>2017-10-05T05:33:30.000Z</published>
     <updated>2017-10-05T07:00:26.000Z</updated>
     
@@ -139,21 +139,21 @@
     
     </summary>
     
-      <category term="读书笔记" scheme="http://yoursite.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://daminger.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://daminger.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
-      <category term="武侠" scheme="http://yoursite.com/tags/%E6%AD%A6%E4%BE%A0/"/>
+      <category term="武侠" scheme="https://daminger.github.io/tags/%E6%AD%A6%E4%BE%A0/"/>
     
-      <category term="古龙" scheme="http://yoursite.com/tags/%E5%8F%A4%E9%BE%99/"/>
+      <category term="古龙" scheme="https://daminger.github.io/tags/%E5%8F%A4%E9%BE%99/"/>
     
   </entry>
   
   <entry>
     <title>15个写出高效率的Email的技巧</title>
-    <link href="http://yoursite.com/2017/10/02/how_to_write_email/"/>
-    <id>http://yoursite.com/2017/10/02/how_to_write_email/</id>
+    <link href="https://daminger.github.io/2017/10/02/how_to_write_email/"/>
+    <id>https://daminger.github.io/2017/10/02/how_to_write_email/</id>
     <published>2017-10-02T09:39:34.000Z</published>
     <updated>2017-10-02T12:01:18.000Z</updated>
     
@@ -171,12 +171,12 @@
     
     </summary>
     
-      <category term="工作技能" scheme="http://yoursite.com/categories/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
+      <category term="工作技能" scheme="https://daminger.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
     
     
-      <category term="工作技能" scheme="http://yoursite.com/tags/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
+      <category term="工作技能" scheme="https://daminger.github.io/tags/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
     
-      <category term="Email" scheme="http://yoursite.com/tags/Email/"/>
+      <category term="Email" scheme="https://daminger.github.io/tags/Email/"/>
     
   </entry>
   
