@@ -15,6 +15,7 @@ timezone: Asia/Shanghai
 url: https://daminger.github.io
 root: /
 permalink: :year/:month/:day/:title/
+#permalink: :title/
 permalink_defaults:
 
 # Directory
