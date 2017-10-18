@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>
-  <updated>2017-10-15T15:11:12.000Z</updated>
+  <updated>2017-10-18T16:29:18.000Z</updated>
   <id>https://daminger.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Inception_安装部署</title>
+    <link href="https://daminger.github.io/2017/10/19/inception-install/"/>
+    <id>https://daminger.github.io/2017/10/19/inception-install/</id>
+    <published>2017-10-18T16:18:07.000Z</published>
+    <updated>2017-10-18T16:29:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司现阶段还没有自助表变更平台，工作中一些DDL和DML还得手动搞，一是重复的事情反复做，时间消耗多，二是人工执行存在风险隐患，于是开始调研一下去哪儿的inception工具，如果可行，对它进行二次封装进行web化开发。</p><p>线上服务器Linux版本：Centos7</p><h1 id="下载源码和安装相关依赖包"><a href="#下载源码和安装相关依赖包" class="headerlink" title="下载源码和安装相关依赖包"></a>下载源码和安装相关依赖包</h1><p>从Github上下载源码</p><pre><code>git clone https://github.com/mysql-inception/inception.git</code></pre><p>安装必要的编译包</p><pre><code>yum install -y openssl-devel gcc-c++  ncurses-devel cmake</code></pre><p>注意bison包需要编译安装，下载bison：<a href="http://ftp.gnu.org/gnu/bison/" target="_blank" rel="external">http://ftp.gnu.org/gnu/bison/</a> 版本最好是2.6之前的，最新的可能会有问题</p><pre><code>wget http://ftp.gnu.org/gnu/bison/bison-2.6.tar.gztar -zxvf bison-2.6.tar.gzcd bison-2.6./configuremakemake install然后做个软连接cd /usr/binln -s /data/bison-2.6/src/bison查看bison版本号bison -V</code></pre><h1 id="编译安装inception"><a href="#编译安装inception" class="headerlink" title="编译安装inception"></a>编译安装inception</h1><p>进入inception目录</p><pre><code>sh inception_build.sh debug [linux]</code></pre><p>上述命令中debug为编译安装的目录，[linux]为当前操作系统平台<br>那么需要注意的是，每次如果出错之后，需要把编译目录删除掉，重新执行，不然会执行出错。</p><p>编辑配置文件inc.inf文件,这个配置文件在后面的文章详细讲解配置下</p><pre><code>[inception]general_log=1general_log_file=inception.logport=6669socket=/tmp/inc.socketcharacter-set-client-handshake=0character-set-server=utf8inception_remote_system_password=YOURBACKPASSWORDinception_remote_system_user=admininception_remote_backup_port=33006inception_remote_backup_host=YOURBACKUSERinception_support_charset=utf8mb4inception_enable_nullable=0inception_check_primary_key=1inception_check_column_comment=1inception_check_table_comment=1inception_osc_min_table_size=1inception_osc_bin_dir=/data/tempinception_osc_chunk_time=0.1inception_enable_blob_type=1inception_check_column_default_value=1</code></pre><p>启动</p><pre><code>./inception/debug/mysql/bin/Inception --defaults-file=inc.inf</code></pre><p>测试</p><pre><code>mysql -uroot -h127.0.0.1 -P6669inception get variables;</code></pre><p>正常输出就OK</p><h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><p>编写一个test.py,在test库里面创建一张表</p><pre><code>#!/usr/bin/python#-*- coding: utf-8 -*-import MySQLdbsql=&apos;/*--user=YOURUSER;--password=YOURPASSWORD;--host=YOURHOST;--port=33006;--execute=1;*/\inception_magic_start;\use test;\CREATE TABLE lqm_test(\id int unsigned not null auto_increment comment &quot;aaaa&quot;,\username varchar(10) not null default 0 comment &quot;xxx&quot;,\primary key(id))\engine = innodb default charset utf8mb4 comment &quot;dddd&quot;;\inception_magic_commit;&apos;try:    conn=MySQLdb.connect(host=&apos;127.0.0.1&apos;,user=&apos;root&apos;,passwd=&apos;&apos;,db=&apos;&apos;,port=6669)    cursor=conn.cursor()    cursor.execute(sql)    results = cursor.fetchall()    column_name_max_size=max(len(i[0]) for i in cursor.description)    row_num=0    for result in results:        row_num=row_num+1        print &apos;*&apos;.ljust(27,&apos;*&apos;),row_num,&apos;.row&apos;, &apos;*&apos;.ljust(27,&apos;*&apos;)        row = map(lambda x, y: (x,y), (i[0] for i in cursor.description), result)        for each_column in row:            if each_column[0] != &apos;errormessage&apos;:                print each_column[0].rjust(column_name_max_size),&quot;:&quot;,each_column[1]            else:                print each_column[0].rjust(column_name_max_size),&apos;:&apos;,each_column[1].replace(&apos;\n&apos;,&apos;\n&apos;.ljust(column_name_max_size+4))    cursor.close()    conn.close()except MySQLdb.Error,e:    print &quot;Mysql Error %d: %s&quot; % (e.args[0], e.args[1])</code></pre><p>python test.py,观察log</p><pre><code># less inception.log171011 18:11:46     2 Query     set autocommit=0                2 Query     /*--user=XXX;--password=XXX;--host=XXX;--port=33006;--execute=1;*/inception_magic_start;use test;CREATE TABLE lqm_test(id int unsigned not null auto_increment comment &quot;aaaa&quot;,username varchar(10) not null default 0 comment &quot;xxx&quot;,primary key(id))engine = innodb default charset utf8mb4 comment &quot;dddd&quot;;inception_magic_commit</code></pre><p>检查表是否创建成功即可</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;公司现阶段还没有自助表变更平台，工作中一些DDL和DML还得手动搞，一是重复的事情反复做，时间消耗多，二是人工执行存在风险隐患，于是开始调研
+      
+    
+    </summary>
+    
+      <category term="MySQLTools" scheme="https://daminger.github.io/categories/MySQLTools/"/>
+    
+    
+      <category term="Inception" scheme="https://daminger.github.io/tags/Inception/"/>
+    
+      <category term="表变更平台" scheme="https://daminger.github.io/tags/%E8%A1%A8%E5%8F%98%E6%9B%B4%E5%B9%B3%E5%8F%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>由DBA和RD的日常沟通引起的反思</title>
