@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://daminger.github.io/2017/10/29/elk-how-to-install-es/</loc>
+    <lastmod>2017-10-29T12:18:10.000Z</lastmod>
+    <data>
+        <display>
+        <title>ELK_ElasticSearch5.5.1版本快速部署</title>
+        <pubTime>2017-10-29T11:30:30.000Z</pubTime>
+        
+        <tag>ELK</tag>
+         
+        <tag>ElasticSearch</tag>
+         
+         
+           
+             
+              <breadCrumb title="ELK" url="https://daminger.github.io/categories/ELK/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://daminger.github.io/2017/10/25/inception-backup/</loc>
     <lastmod>2017-10-26T02:16:00.000Z</lastmod>
     <data>

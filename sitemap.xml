@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daminger.github.io/2017/10/29/elk-how-to-install-es/</loc>
+    
+    <lastmod>2017-10-29T12:18:10.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daminger.github.io/2017/10/25/inception-backup/</loc>
     
     <lastmod>2017-10-26T02:16:00.000Z</lastmod>
