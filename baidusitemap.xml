@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://daminger.github.io/2017/11/01/mysql-loaddata/</loc>
+    <lastmod>2017-11-01T14:09:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL的Load data的权限误区</title>
+        <pubTime>2017-11-01T13:41:32.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+        <tag>Load data</tag>
+         
+         
+           
+             
+              <breadCrumb title="MySQL" url="https://daminger.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://daminger.github.io/2017/10/29/elk-how-to-install-es/</loc>
     <lastmod>2017-10-29T12:18:10.000Z</lastmod>
     <data>

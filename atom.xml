@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>
-  <updated>2017-10-29T12:18:10.000Z</updated>
+  <updated>2017-11-01T14:09:27.000Z</updated>
   <id>https://daminger.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL的Load data的权限误区</title>
+    <link href="https://daminger.github.io/2017/11/01/mysql-loaddata/"/>
+    <id>https://daminger.github.io/2017/11/01/mysql-loaddata/</id>
+    <published>2017-11-01T13:41:32.000Z</published>
+    <updated>2017-11-01T14:09:27.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天刚到公司，手机接到主从延时的报警，登录线上机器，发现是一条load data语句导致的。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">load data LOW_PRIORITY local infile &apos;/data/tmp/job-temp/app_ordering_system_maiev_check_reference_data_20171031&apos; replace into table order_check fields terminated by &apos;\t&apos; ( order_date</div><div class="line">,batch_code</div><div class="line">,transport_num</div><div class="line">,shop_code</div><div class="line">,shop_name</div><div class="line">,mid_classify_code</div><div class="line">,mid_classify_name</div><div class="line">,sku_main_code</div><div class="line">,sku_code</div><div class="line">,sku_name</div><div class="line">,sku_type</div><div class="line">,whether_new</div><div class="line">,whether_popular</div><div class="line">,sale_level</div><div class="line">,booking_spec</div><div class="line">,yesterday_stock</div><div class="line">,refer_abandon_amount</div><div class="line">,sale_amount_day</div><div class="line">,order_amount_day</div><div class="line">,expiration</div><div class="line">,whether_yummy</div><div class="line">,purchasing_unit_price</div><div class="line">,shop_start_date</div><div class="line">,shop_state</div><div class="line">,shop_business_state</div><div class="line">,picking_type</div><div class="line">,booking_qty</div><div class="line">,shop_type</div><div class="line">)</div></pre></td></tr></table></figure><p>延迟原因很清晰明了，但是我看了下这个库不是数据组的业务，按理说不应该有load data权限，我找到账号，show grants一下，确实只有增删改查权限，找对应RD也确认了下，确实刚才使用这个账号执行了这个语句，线上数据库版本是MySQL Community 5.6.36，我在测试环境上也能够复现这个情景。原先我以为load data权限怎么也得有file权限，看来存在误区。</p><p>上网搜了搜，看到这段解释解决了我的疑问</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- load data infile into table table_name ; </div><div class="line">  执行命令的用户有权限访问的文件，然后load到DB中,并且需要file权限。</div><div class="line">  </div><div class="line">- load data local infile  into table table_name ;</div><div class="line">  只要是客户端用户有权限访问的文件，都可以上传到服务端，然后load到DB中，这样是特别危险的。</div><div class="line">  注意：此时的load data不需要file权限！</div><div class="line"></div><div class="line">- select * from t into outfile &apos;filename&apos;;</div><div class="line">  先看运行mysqld的用户有没有对存放文件的目录有写权限，再看执行命令的用户有没有file权限.</div></pre></td></tr></table></figure><p>解决办法，针对load data local infile,扫描线上MySQL参数local_infile的值，设置成OFF即可。</p><p>反思</p><ul><li>对看有疑惑的问题，一定要先记录下来，想办法去解决，不断走出自己的知识误区。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天刚到公司，手机接到主从延时的报警，登录线上机器，发现是一条load data语句导致的。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1
+      
+    
+    </summary>
+    
+      <category term="MySQL" scheme="https://daminger.github.io/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="https://daminger.github.io/tags/MySQL/"/>
+    
+      <category term="Load data" scheme="https://daminger.github.io/tags/Load-data/"/>
+    
+  </entry>
   
   <entry>
     <title>ELK_ElasticSearch5.5.1版本快速部署</title>
