@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Inception,表变更平台," />
+  <meta name="keywords" content="ELK,IK插件," />
 
 
 
@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="背景公司现阶段还没有自助表变更平台，工作中一些DDL和DML还得手动搞，一是重复的事情反复做，时间消耗多，二是人工执行存在风险隐患，于是开始调研一下去哪儿的inception工具，如果可行，对它进行二次封装进行web化开发。 线上服务器Linux版本：Centos7 下载源码和安装相关依赖包从Github上下载源码 git clone https://github.com/mysql-incept">
-<meta name="keywords" content="Inception,表变更平台">
+<meta name="description" content="本文主要介绍如何安装ES的IK插件，IK插件主要做分词用的，尤其对中文分词支持友好。 ES日志系统线上版本是5.5.1，IK地址：https://github.com/medcl/elasticsearch-analysis-ik 1.以ES的用户为每个节点安装插件 5.5.1以上版本官方已经支持命令安装，5.5.1以下版本需要mvn打包安装（如果觉得mvn打包麻烦，可以在plugins目录下创建">
+<meta name="keywords" content="ELK,IK插件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Inception_安装部署">
-<meta property="og:url" content="https://daminger.github.io/2017/10/19/inception-install/index.html">
+<meta property="og:title" content="如何安装ES的IK插件">
+<meta property="og:url" content="https://daminger.github.io/2017/11/05/elk-install-es-ik/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
-<meta property="og:description" content="背景公司现阶段还没有自助表变更平台，工作中一些DDL和DML还得手动搞，一是重复的事情反复做，时间消耗多，二是人工执行存在风险隐患，于是开始调研一下去哪儿的inception工具，如果可行，对它进行二次封装进行web化开发。 线上服务器Linux版本：Centos7 下载源码和安装相关依赖包从Github上下载源码 git clone https://github.com/mysql-incept">
+<meta property="og:description" content="本文主要介绍如何安装ES的IK插件，IK插件主要做分词用的，尤其对中文分词支持友好。 ES日志系统线上版本是5.5.1，IK地址：https://github.com/medcl/elasticsearch-analysis-ik 1.以ES的用户为每个节点安装插件 5.5.1以上版本官方已经支持命令安装，5.5.1以下版本需要mvn打包安装（如果觉得mvn打包麻烦，可以在plugins目录下创建">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-18T16:29:18.000Z">
+<meta property="og:updated_time" content="2017-11-05T06:35:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Inception_安装部署">
-<meta name="twitter:description" content="背景公司现阶段还没有自助表变更平台，工作中一些DDL和DML还得手动搞，一是重复的事情反复做，时间消耗多，二是人工执行存在风险隐患，于是开始调研一下去哪儿的inception工具，如果可行，对它进行二次封装进行web化开发。 线上服务器Linux版本：Centos7 下载源码和安装相关依赖包从Github上下载源码 git clone https://github.com/mysql-incept">
+<meta name="twitter:title" content="如何安装ES的IK插件">
+<meta name="twitter:description" content="本文主要介绍如何安装ES的IK插件，IK插件主要做分词用的，尤其对中文分词支持友好。 ES日志系统线上版本是5.5.1，IK地址：https://github.com/medcl/elasticsearch-analysis-ik 1.以ES的用户为每个节点安装插件 5.5.1以上版本官方已经支持命令安装，5.5.1以下版本需要mvn打包安装（如果觉得mvn打包麻烦，可以在plugins目录下创建">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/2017/10/19/inception-install/"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/11/05/elk-install-es-ik/"/>
 
 
 
 
 
-  <title>Inception_安装部署 | DaMing's Notes</title>
+  <title>如何安装ES的IK插件 | DaMing's Notes</title>
   
 
 
@@ -301,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/10/19/inception-install/">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/11/05/elk-install-es-ik/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaMing">
@@ -318,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Inception_安装部署</h1>
+          <h1 class="post-title" itemprop="name headline">如何安装ES的IK插件</h1>
         
 
         <div class="post-meta">
@@ -330,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-19T00:18:07+08:00">
-                2017-10-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-05T14:24:08+08:00">
+                2017-11-05
               </time>
             
 
@@ -353,8 +353,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQLTools/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQLTools</span>
+                  <a href="/categories/ELK/" itemprop="url" rel="index">
+                    <span itemprop="name">ELK</span>
                   </a>
                 </span>
 
@@ -390,93 +390,18 @@
       
 
       
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司现阶段还没有自助表变更平台，工作中一些DDL和DML还得手动搞，一是重复的事情反复做，时间消耗多，二是人工执行存在风险隐患，于是开始调研一下去哪儿的inception工具，如果可行，对它进行二次封装进行web化开发。</p>
-<p>线上服务器Linux版本：Centos7</p>
-<h1 id="下载源码和安装相关依赖包"><a href="#下载源码和安装相关依赖包" class="headerlink" title="下载源码和安装相关依赖包"></a>下载源码和安装相关依赖包</h1><p>从Github上下载源码</p>
-<pre><code>git clone https://github.com/mysql-inception/inception.git
-</code></pre><p>安装必要的编译包</p>
-<pre><code>yum install -y openssl-devel gcc-c++  ncurses-devel cmake
-</code></pre><p>注意bison包需要编译安装，下载bison：<a href="http://ftp.gnu.org/gnu/bison/" target="_blank" rel="external">http://ftp.gnu.org/gnu/bison/</a> 版本最好是2.6之前的，最新的可能会有问题</p>
-<pre><code>wget http://ftp.gnu.org/gnu/bison/bison-2.6.tar.gz
-tar -zxvf bison-2.6.tar.gz
-cd bison-2.6
-./configure
-make
-make install
-然后做个软连接
-cd /usr/bin
-ln -s /data/bison-2.6/src/bison
-查看bison版本号
-bison -V
-</code></pre><h1 id="编译安装inception"><a href="#编译安装inception" class="headerlink" title="编译安装inception"></a>编译安装inception</h1><p>进入inception目录</p>
-<pre><code>sh inception_build.sh debug [linux]
-</code></pre><p>上述命令中debug为编译安装的目录，[linux]为当前操作系统平台<br>那么需要注意的是，每次如果出错之后，需要把编译目录删除掉，重新执行，不然会执行出错。</p>
-<p>编辑配置文件inc.inf文件,这个配置文件在后面的文章详细讲解配置下</p>
-<pre><code>[inception]
-general_log=1
-general_log_file=inception.log
-port=6669
-socket=/tmp/inc.socket
-character-set-client-handshake=0
-character-set-server=utf8
-inception_remote_system_password=YOURBACKPASSWORD
-inception_remote_system_user=admin
-inception_remote_backup_port=33006
-inception_remote_backup_host=YOURBACKUSER
-inception_support_charset=utf8mb4
-inception_enable_nullable=0
-inception_check_primary_key=1
-inception_check_column_comment=1
-inception_check_table_comment=1
-inception_osc_min_table_size=1
-inception_osc_bin_dir=/data/temp
-inception_osc_chunk_time=0.1
-inception_enable_blob_type=1
-inception_check_column_default_value=1
-</code></pre><p>启动</p>
-<pre><code>./inception/debug/mysql/bin/Inception --defaults-file=inc.inf
-</code></pre><p>测试</p>
-<pre><code>mysql -uroot -h127.0.0.1 -P6669
-inception get variables;
-</code></pre><p>正常输出就OK</p>
-<h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><p>编写一个test.py,在test库里面创建一张表</p>
-<pre><code>#!/usr/bin/python
-#-*- coding: utf-8 -*-
-import MySQLdb
-sql=&apos;/*--user=YOURUSER;--password=YOURPASSWORD;--host=YOURHOST;--port=33006;--execute=1;*/\
-inception_magic_start;\
-use test;\
-CREATE TABLE lqm_test(\
-id int unsigned not null auto_increment comment &quot;aaaa&quot;,\
-username varchar(10) not null default 0 comment &quot;xxx&quot;,\
-primary key(id))\
-engine = innodb default charset utf8mb4 comment &quot;dddd&quot;;\
-inception_magic_commit;&apos;
-try:
-    conn=MySQLdb.connect(host=&apos;127.0.0.1&apos;,user=&apos;root&apos;,passwd=&apos;&apos;,db=&apos;&apos;,port=6669)
-    cursor=conn.cursor()
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    column_name_max_size=max(len(i[0]) for i in cursor.description)
-    row_num=0
-    for result in results:
-        row_num=row_num+1
-        print &apos;*&apos;.ljust(27,&apos;*&apos;),row_num,&apos;.row&apos;, &apos;*&apos;.ljust(27,&apos;*&apos;)
-        row = map(lambda x, y: (x,y), (i[0] for i in cursor.description), result)
-        for each_column in row:
-            if each_column[0] != &apos;errormessage&apos;:
-                print each_column[0].rjust(column_name_max_size),&quot;:&quot;,each_column[1]
-            else:
-                print each_column[0].rjust(column_name_max_size),&apos;:&apos;,each_column[1].replace(&apos;\n&apos;,&apos;\n&apos;.ljust(column_name_max_size+4))
-    cursor.close()
-    conn.close()
-except MySQLdb.Error,e:
-    print &quot;Mysql Error %d: %s&quot; % (e.args[0], e.args[1])
-</code></pre><p>python test.py,观察log</p>
-<pre><code># less inception.log
-171011 18:11:46     2 Query     set autocommit=0
-                2 Query     /*--user=XXX;--password=XXX;--host=XXX;--port=33006;--execute=1;*/inception_magic_start;use test;CREATE TABLE lqm_test(id int unsigned not null auto_increment comment &quot;aaaa&quot;,username varchar(10) not null default 0 comment &quot;xxx&quot;,primary key(id))engine = innodb default charset utf8mb4 comment &quot;dddd&quot;;inception_magic_commit
-</code></pre><p>检查表是否创建成功即可</p>
+        <p>本文主要介绍如何安装ES的IK插件，IK插件主要做分词用的，尤其对中文分词支持友好。</p>
+<p>ES日志系统线上版本是5.5.1，IK地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="external">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
+<p>1.以ES的用户为每个节点安装插件</p>
+<p>5.5.1以上版本官方已经支持命令安装，5.5.1以下版本需要mvn打包安装（如果觉得mvn打包麻烦，可以在plugins目录下创建ik目录，下载ZIP包，解压到该文件夹中,赋予正确权限也能行）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.5.1/elasticsearch-analysis-ik-5.5.1.zip</div></pre></td></tr></table></figure>
+<p>2.先暂停集群的shard自动均衡</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPUT http://YOURHOST:9200/_cluster/settings -d&apos;</div><div class="line">&#123;</div><div class="line">&quot;transient&quot; : &#123;</div><div class="line">&quot;cluster.routing.allocation.enable&quot; : &quot;none&quot;</div><div class="line">&#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>3.shutdown你要重启的节点</p>
+<p>4.重启该节点，并确认该节点重新加入到了集群中</p>
+<p>5.重启启动集群的shard均衡</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPUT http://YOURHOST:9200/_cluster/settings -d&apos;</div><div class="line">&#123;</div><div class="line">&quot;transient&quot; : &#123;</div><div class="line">&quot;cluster.routing.allocation.enable&quot; : &quot;all&quot;</div><div class="line">&#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>6.重复2-5步，重启其它节点。</p>
 
       
     </div>
@@ -526,7 +451,7 @@ except MySQLdb.Error,e:
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://daminger.github.io/2017/10/19/inception-install/" title="Inception_安装部署">https://daminger.github.io/2017/10/19/inception-install/</a>
+    <a href="https://daminger.github.io/2017/11/05/elk-install-es-ik/" title="如何安装ES的IK插件">https://daminger.github.io/2017/11/05/elk-install-es-ik/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -541,9 +466,9 @@ except MySQLdb.Error,e:
       
         <div class="post-tags">
           
-            <a href="/tags/Inception/" rel="tag"># Inception</a>
+            <a href="/tags/ELK/" rel="tag"># ELK</a>
           
-            <a href="/tags/表变更平台/" rel="tag"># 表变更平台</a>
+            <a href="/tags/IK插件/" rel="tag"># IK插件</a>
           
         </div>
       
@@ -556,8 +481,8 @@ except MySQLdb.Error,e:
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/15/RD-communicate-with-DBA/" rel="next" title="由DBA和RD的日常沟通引起的反思">
-                <i class="fa fa-chevron-left"></i> 由DBA和RD的日常沟通引起的反思
+              <a href="/2017/11/01/mysql-loaddata/" rel="next" title="MySQL的Load data的权限误区">
+                <i class="fa fa-chevron-left"></i> MySQL的Load data的权限误区
               </a>
             
           </div>
@@ -565,10 +490,6 @@ except MySQLdb.Error,e:
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/21/inception-basictest/" rel="prev" title="Inception_基本功能测试">
-                Inception_基本功能测试 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -646,17 +567,8 @@ var jiathis_config={
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -777,22 +689,6 @@ var jiathis_config={
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载源码和安装相关依赖包"><span class="nav-number">2.</span> <span class="nav-text">下载源码和安装相关依赖包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译安装inception"><span class="nav-number">3.</span> <span class="nav-text">编译安装inception</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单使用"><span class="nav-number">4.</span> <span class="nav-text">简单使用</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

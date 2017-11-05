@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daminger.github.io/2017/11/05/elk-install-es-ik/</loc>
+    
+    <lastmod>2017-11-05T06:35:12.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daminger.github.io/2017/11/01/mysql-loaddata/</loc>
     
     <lastmod>2017-11-01T14:09:27.000Z</lastmod>

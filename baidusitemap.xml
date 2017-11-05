@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://daminger.github.io/2017/11/05/elk-install-es-ik/</loc>
+    <lastmod>2017-11-05T06:35:12.000Z</lastmod>
+    <data>
+        <display>
+        <title>如何安装ES的IK插件</title>
+        <pubTime>2017-11-05T06:24:08.000Z</pubTime>
+        
+        <tag>ELK</tag>
+         
+        <tag>IK插件</tag>
+         
+         
+           
+             
+              <breadCrumb title="ELK" url="https://daminger.github.io/categories/ELK/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://daminger.github.io/2017/11/01/mysql-loaddata/</loc>
     <lastmod>2017-11-01T14:09:27.000Z</lastmod>
     <data>

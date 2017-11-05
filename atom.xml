@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>
-  <updated>2017-11-01T14:09:27.000Z</updated>
+  <updated>2017-11-05T06:35:12.000Z</updated>
   <id>https://daminger.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何安装ES的IK插件</title>
+    <link href="https://daminger.github.io/2017/11/05/elk-install-es-ik/"/>
+    <id>https://daminger.github.io/2017/11/05/elk-install-es-ik/</id>
+    <published>2017-11-05T06:24:08.000Z</published>
+    <updated>2017-11-05T06:35:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文主要介绍如何安装ES的IK插件，IK插件主要做分词用的，尤其对中文分词支持友好。</p><p>ES日志系统线上版本是5.5.1，IK地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="external">https://github.com/medcl/elasticsearch-analysis-ik</a></p><p>1.以ES的用户为每个节点安装插件</p><p>5.5.1以上版本官方已经支持命令安装，5.5.1以下版本需要mvn打包安装（如果觉得mvn打包麻烦，可以在plugins目录下创建ik目录，下载ZIP包，解压到该文件夹中,赋予正确权限也能行）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.5.1/elasticsearch-analysis-ik-5.5.1.zip</div></pre></td></tr></table></figure><p>2.先暂停集群的shard自动均衡</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPUT http://YOURHOST:9200/_cluster/settings -d&apos;</div><div class="line">&#123;</div><div class="line">&quot;transient&quot; : &#123;</div><div class="line">&quot;cluster.routing.allocation.enable&quot; : &quot;none&quot;</div><div class="line">&#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure><p>3.shutdown你要重启的节点</p><p>4.重启该节点，并确认该节点重新加入到了集群中</p><p>5.重启启动集群的shard均衡</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -XPUT http://YOURHOST:9200/_cluster/settings -d&apos;</div><div class="line">&#123;</div><div class="line">&quot;transient&quot; : &#123;</div><div class="line">&quot;cluster.routing.allocation.enable&quot; : &quot;all&quot;</div><div class="line">&#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure><p>6.重复2-5步，重启其它节点。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文主要介绍如何安装ES的IK插件，IK插件主要做分词用的，尤其对中文分词支持友好。&lt;/p&gt;
+&lt;p&gt;ES日志系统线上版本是5.5.1，IK地址：&lt;a href=&quot;https://github.com/medcl/elasticsearch-analysis-ik&quot; targ
+      
+    
+    </summary>
+    
+      <category term="ELK" scheme="https://daminger.github.io/categories/ELK/"/>
+    
+    
+      <category term="ELK" scheme="https://daminger.github.io/tags/ELK/"/>
+    
+      <category term="IK插件" scheme="https://daminger.github.io/tags/IK%E6%8F%92%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL的Load data的权限误区</title>
