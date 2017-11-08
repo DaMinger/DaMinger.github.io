@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MySQL," />
 
 
 
@@ -83,16 +83,18 @@
 
 
 
-<meta name="description" content="知行合一">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DaMing&#39;s Notes">
-<meta property="og:url" content="https://daminger.github.io/tags/MySQL/index.html">
+<meta name="description" content="今天工作中收到数据库报警，报磁盘空间90%多了，我一看4T的盘呢，怎么会报磁盘空间报警呢？再仔细一看，之前的运维人员把MySQL部署在了根目录上，隐形的坑，临时清理了日志，联系业务，需要把数据库迁移到数据盘上。 步骤 路由掉从库流量，先从库后主库。 1.关闭监控 2.备份原有的MySQL配置文件 3.关闭mysql mysqladmin -uXXXX -p’XXXX’ -S XXXX.sock s">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL更改数据目录">
+<meta property="og:url" content="https://daminger.github.io/2017/11/08/mysql-change-datadir/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
-<meta property="og:description" content="知行合一">
+<meta property="og:description" content="今天工作中收到数据库报警，报磁盘空间90%多了，我一看4T的盘呢，怎么会报磁盘空间报警呢？再仔细一看，之前的运维人员把MySQL部署在了根目录上，隐形的坑，临时清理了日志，联系业务，需要把数据库迁移到数据盘上。 步骤 路由掉从库流量，先从库后主库。 1.关闭监控 2.备份原有的MySQL配置文件 3.关闭mysql mysqladmin -uXXXX -p’XXXX’ -S XXXX.sock s">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-08T14:18:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DaMing&#39;s Notes">
-<meta name="twitter:description" content="知行合一">
+<meta name="twitter:title" content="MySQL更改数据目录">
+<meta name="twitter:description" content="今天工作中收到数据库报警，报磁盘空间90%多了，我一看4T的盘呢，怎么会报磁盘空间报警呢？再仔细一看，之前的运维人员把MySQL部署在了根目录上，隐形的坑，临时清理了日志，联系业务，需要把数据库迁移到数据盘上。 步骤 路由掉从库流量，先从库后主库。 1.关闭监控 2.备份原有的MySQL配置文件 3.关闭mysql mysqladmin -uXXXX -p’XXXX’ -S XXXX.sock s">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/tags/MySQL/"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/11/08/mysql-change-datadir/"/>
 
 
 
 
 
-  <title>标签: MySQL | DaMing's Notes</title>
+  <title>MySQL更改数据目录 | DaMing's Notes</title>
   
 
 
@@ -147,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -285,82 +287,259 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>MySQL<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/11/08/mysql-change-datadir/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaMing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DaMing's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/11/08/mysql-change-datadir/" itemprop="url">
-              
-                <span itemprop="name">MySQL更改数据目录</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">MySQL更改数据目录</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-11-08T22:03:29+08:00"
-              content="2017-11-08" >
-          11-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T22:03:29+08:00">
+                2017-11-08
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/11/01/mysql-loaddata/" itemprop="url">
-              
-                <span itemprop="name">MySQL的Load data的权限误区</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-11-01T21:41:32+08:00"
-              content="2017-11-01" >
-          11-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>今天工作中收到数据库报警，报磁盘空间90%多了，我一看4T的盘呢，怎么会报磁盘空间报警呢？再仔细一看，之前的运维人员把MySQL部署在了根目录上，隐形的坑，临时清理了日志，联系业务，需要把数据库迁移到数据盘上。</p>
+<p>步骤</p>
+<p>路由掉从库流量，先从库后主库。</p>
+<p>1.关闭监控</p>
+<p>2.备份原有的MySQL配置文件</p>
+<p>3.关闭mysql</p>
+<p>mysqladmin -uXXXX -p’XXXX’ -S XXXX.sock shutdown</p>
+<p>4.更改配置文件，对datadir、slow_query_log_file、log-error的三个参数更改目录</p>
+<p>/data/${mysqldir}=&gt;/data1/${mysqldir} </p>
+<p>5.mv MySQL目录到数据盘/data1/</p>
+<p>mv /data/${mysqldir} /data1/${mysqldir}</p>
+<p>6.赋权</p>
+<p>chown -R mysql:mysql /data1/${mysqldir}</p>
+<p>7.启动</p>
+<p>/usr/bin/mysqld_safe –defaults-file=/etc/XXXX.cnf &gt;/dev/null &amp; </p>
+<p>8.检查MySQL状态，打开报警</p>
+<p>9.监控模板微调，磁盘报警需要改成监控的/data1磁盘情况</p>
+<p>如果减少copy时间，注意清理slowlog和binlog</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏杯咖啡?</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="DaMing 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="DaMing 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    DaMing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://daminger.github.io/2017/11/08/mysql-change-datadir/" title="MySQL更改数据目录">https://daminger.github.io/2017/11/08/mysql-change-datadir/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/05/elk-install-es-ik/" rel="next" title="如何安装ES的IK插件">
+                <i class="fa fa-chevron-left"></i> 如何安装ES的IK插件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -368,6 +547,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -634,6 +817,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 

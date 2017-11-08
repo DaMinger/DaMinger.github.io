@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>
-  <updated>2017-11-05T06:35:12.000Z</updated>
+  <updated>2017-11-08T14:18:44.000Z</updated>
   <id>https://daminger.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL更改数据目录</title>
+    <link href="https://daminger.github.io/2017/11/08/mysql-change-datadir/"/>
+    <id>https://daminger.github.io/2017/11/08/mysql-change-datadir/</id>
+    <published>2017-11-08T14:03:29.000Z</published>
+    <updated>2017-11-08T14:18:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天工作中收到数据库报警，报磁盘空间90%多了，我一看4T的盘呢，怎么会报磁盘空间报警呢？再仔细一看，之前的运维人员把MySQL部署在了根目录上，隐形的坑，临时清理了日志，联系业务，需要把数据库迁移到数据盘上。</p><p>步骤</p><p>路由掉从库流量，先从库后主库。</p><p>1.关闭监控</p><p>2.备份原有的MySQL配置文件</p><p>3.关闭mysql</p><p>mysqladmin -uXXXX -p’XXXX’ -S XXXX.sock shutdown</p><p>4.更改配置文件，对datadir、slow_query_log_file、log-error的三个参数更改目录</p><p>/data/${mysqldir}=&gt;/data1/${mysqldir} </p><p>5.mv MySQL目录到数据盘/data1/</p><p>mv /data/${mysqldir} /data1/${mysqldir}</p><p>6.赋权</p><p>chown -R mysql:mysql /data1/${mysqldir}</p><p>7.启动</p><p>/usr/bin/mysqld_safe –defaults-file=/etc/XXXX.cnf &gt;/dev/null &amp; </p><p>8.检查MySQL状态，打开报警</p><p>9.监控模板微调，磁盘报警需要改成监控的/data1磁盘情况</p><p>如果减少copy时间，注意清理slowlog和binlog</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天工作中收到数据库报警，报磁盘空间90%多了，我一看4T的盘呢，怎么会报磁盘空间报警呢？再仔细一看，之前的运维人员把MySQL部署在了根目录上，隐形的坑，临时清理了日志，联系业务，需要把数据库迁移到数据盘上。&lt;/p&gt;
+&lt;p&gt;步骤&lt;/p&gt;
+&lt;p&gt;路由掉从库流量，先从库后主库
+      
+    
+    </summary>
+    
+      <category term="MySQL" scheme="https://daminger.github.io/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="https://daminger.github.io/tags/MySQL/"/>
+    
+  </entry>
   
   <entry>
     <title>如何安装ES的IK插件</title>
