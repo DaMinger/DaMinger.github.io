@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="ELK,ElasticSearch," />
 
 
 
@@ -83,16 +83,18 @@
 
 
 
-<meta name="description" content="知行合一">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DaMing&#39;s Notes">
-<meta property="og:url" content="https://daminger.github.io/archives/2017/page/2/index.html">
+<meta name="description" content="基于Falcon,写了个小程序，上报数据，做ES监控 希望有帮助，大家根据实际情况可以自定义修改。 代码地址：https://github.com/DaMinger/elasticsearch_monitor_falcon 集群级别   主要监控项 描述     es.cluster.health.active_primary_shards 集群内所有索引的主分片总数   es.cluster.h">
+<meta name="keywords" content="ELK,ElasticSearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Falcon的ES监控">
+<meta property="og:url" content="https://daminger.github.io/2017/11/12/elk-es-monitor-falcon/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
-<meta property="og:description" content="知行合一">
+<meta property="og:description" content="基于Falcon,写了个小程序，上报数据，做ES监控 希望有帮助，大家根据实际情况可以自定义修改。 代码地址：https://github.com/DaMinger/elasticsearch_monitor_falcon 集群级别   主要监控项 描述     es.cluster.health.active_primary_shards 集群内所有索引的主分片总数   es.cluster.h">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-12T12:23:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DaMing&#39;s Notes">
-<meta name="twitter:description" content="知行合一">
+<meta name="twitter:title" content="基于Falcon的ES监控">
+<meta name="twitter:description" content="基于Falcon,写了个小程序，上报数据，做ES监控 希望有帮助，大家根据实际情况可以自定义修改。 代码地址：https://github.com/DaMinger/elasticsearch_monitor_falcon 集群级别   主要监控项 描述     es.cluster.health.active_primary_shards 集群内所有索引的主分片总数   es.cluster.h">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/archives/2017/page/2/"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/11/12/elk-es-monitor-falcon/"/>
 
 
 
 
 
-  <title>归档 | DaMing's Notes</title>
+  <title>基于Falcon的ES监控 | DaMing's Notes</title>
   
 
 
@@ -147,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -285,226 +287,402 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/11/12/elk-es-monitor-falcon/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaMing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DaMing's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">基于Falcon的ES监控</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T20:16:52+08:00">
+                2017-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 15 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ELK/" itemprop="url" rel="index">
+                    <span itemprop="name">ELK</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/14/个人成长_工程师的六大意识/" itemprop="url">
-              
-                <span itemprop="name">百度_工程师的六大意识</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-14T13:39:31+08:00"
-              content="2017-10-14" >
-          10-14
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/10/book_炒股的智慧/" itemprop="url">
-              
-                <span itemprop="name">读书笔记【炒股的智慧】</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-10T20:26:28+08:00"
-              content="2017-10-10" >
-          10-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/09/book_高效能人士的七个习惯/" itemprop="url">
-              
-                <span itemprop="name">读书笔记【高效能人士的七个习惯】</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-09T01:09:27+08:00"
-              content="2017-10-09" >
-          10-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>基于Falcon,写了个小程序，上报数据，做ES监控</p>
+<p>希望有帮助，大家根据实际情况可以自定义修改。</p>
+<p>代码地址：<a href="https://github.com/DaMinger/elasticsearch_monitor_falcon" target="_blank" rel="external">https://github.com/DaMinger/elasticsearch_monitor_falcon</a></p>
+<h2 id="集群级别"><a href="#集群级别" class="headerlink" title="集群级别"></a>集群级别</h2><table>
+<thead>
+<tr>
+<th>主要监控项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>es.cluster.health.active_primary_shards</td>
+<td>集群内所有索引的主分片总数</td>
+</tr>
+<tr>
+<td>es.cluster.health.active_shards_percent_as_number</td>
+<td>可用分片百分比</td>
+</tr>
+<tr>
+<td>es.cluster.health.alive</td>
+<td>es是否能连接上</td>
+</tr>
+<tr>
+<td>es.cluster.health.delayed_unassigned_shards</td>
+<td>延时待分配到具体节点上的分片数</td>
+</tr>
+<tr>
+<td>es.cluster.health.initializing_shards</td>
+<td>正在初始化的分片数</td>
+</tr>
+<tr>
+<td>es.cluster.health.number_of_data_nodes</td>
+<td>数据节点个数</td>
+</tr>
+<tr>
+<td>es.cluster.health.number_of_nodes</td>
+<td>节点总个数</td>
+</tr>
+<tr>
+<td>es.cluster.health.number_of_pending_tasks</td>
+<td>等待中任务的个数</td>
+</tr>
+<tr>
+<td>es.cluster.health.relocating_shards</td>
+<td>正在迁移中的分片数</td>
+</tr>
+<tr>
+<td>es.cluster.health.status</td>
+<td>集群健康状态</td>
+</tr>
+<tr>
+<td>es.cluster.health.task_max_waiting_in_queue_millis</td>
+<td>任务在队列中等待的最长时间</td>
+</tr>
+<tr>
+<td>es.cluster.health.unassigned_shards</td>
+<td>未分配到具体节点上的分片数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="节点级别"><a href="#节点级别" class="headerlink" title="节点级别"></a>节点级别</h2><table>
+<thead>
+<tr>
+<th>主要监控项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>es.node.indices.flush.flush_latency</td>
+<td>每次flush操作的平均响应时间</td>
+</tr>
+<tr>
+<td>es.node.indices.indexing.index_current</td>
+<td>当前indexing操作的个数</td>
+</tr>
+<tr>
+<td>es.node.indices.indexing.indexing_latency</td>
+<td>每次indexing操作的平均响应时间</td>
+</tr>
+<tr>
+<td>es.node.indices.refreshing.refresh_latency</td>
+<td>每次refreshing操作的平均响应时间</td>
+</tr>
+<tr>
+<td>es.node.indices.search.fetch_current</td>
+<td>当前fetch操作的个数</td>
+</tr>
+<tr>
+<td>es.node.indices.search.fetch_latency</td>
+<td>每次fetch操作的平均响应时间</td>
+</tr>
+<tr>
+<td>es.node.indices.search.query_current</td>
+<td>当前query操作的个数</td>
+</tr>
+<tr>
+<td>es.node.indices.search.query_latency</td>
+<td>每次query操作的平均响应时间</td>
+</tr>
+<tr>
+<td>es.node.jvm.gc.collectors.heap_committed_in_bytes</td>
+<td>Amount of JVM heap committed</td>
+</tr>
+<tr>
+<td>es.node.jvm.gc.collectors.old.collection_count</td>
+<td>old gc 发生的次数</td>
+</tr>
+<tr>
+<td>es.node.jvm.gc.collectors.old.collection_time_latency</td>
+<td>每次old gc 时间</td>
+</tr>
+<tr>
+<td>es.node.jvm.gc.collectors.young.collection_count</td>
+<td>young gc 发生的次数</td>
+</tr>
+<tr>
+<td>es.node.jvm.gc.collectors.young.collection_time_latency</td>
+<td>每次young gc的时间</td>
+</tr>
+<tr>
+<td>es.node.jvm.mem.heap_used_percent</td>
+<td>jvm heap使用内存的百分比</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.bulk.queue</td>
+<td>在队列里面的bulk操作个数</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.bulk.rejected</td>
+<td>拒绝掉的bulk操作个数</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.force_merge.queue</td>
+<td>在队列里面的force_merge操作个数</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.force_merge.rejected</td>
+<td>拒绝掉的force_merge操作个数</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.index.queue</td>
+<td>在队列里面的index操作个数</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.index.rejected</td>
+<td>拒绝掉的index操作个数</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.search.queue</td>
+<td>在队列里面的search操作个数</td>
+</tr>
+<tr>
+<td>es.node.thread_pool.search.rejected</td>
+<td>拒绝掉的search操作个数</td>
+</tr>
+</tbody>
+</table>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/05/book_流星蝴蝶剑/" itemprop="url">
-              
-                <span itemprop="name">读书笔记【流星蝴蝶剑】</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-05T13:33:30+08:00"
-              content="2017-10-05" >
-          10-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/02/how_to_write_email/" itemprop="url">
-              
-                <span itemprop="name">15个写出高效率的Email的技巧</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-02T17:39:34+08:00"
-              content="2017-10-02" >
-          10-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏杯咖啡?</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="DaMing 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="DaMing 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    DaMing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://daminger.github.io/2017/11/12/elk-es-monitor-falcon/" title="基于Falcon的ES监控">https://daminger.github.io/2017/11/12/elk-es-monitor-falcon/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ELK/" rel="tag"># ELK</a>
+          
+            <a href="/tags/ElasticSearch/" rel="tag"># ElasticSearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/08/mysql-change-datadir/" rel="next" title="MySQL更改数据目录">
+                <i class="fa fa-chevron-left"></i> MySQL更改数据目录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2017/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2017/">1</a><span class="page-number current">2</span>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -512,6 +690,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -532,8 +714,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -654,6 +845,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集群级别"><span class="nav-number">1.</span> <span class="nav-text">集群级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点级别"><span class="nav-number">2.</span> <span class="nav-text">节点级别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -778,6 +985,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
