@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>
-  <updated>2017-11-12T12:23:21.000Z</updated>
+  <updated>2017-11-15T14:28:06.000Z</updated>
   <id>https://daminger.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Redis_分析集群中key的内存情况</title>
+    <link href="https://daminger.github.io/2017/11/15/redis-analyze-memory/"/>
+    <id>https://daminger.github.io/2017/11/15/redis-analyze-memory/</id>
+    <published>2017-11-15T14:11:32.000Z</published>
+    <updated>2017-11-15T14:28:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Redis集群内存暴增，需要下集群中哪类key占用内存比较多，简述下我的思路和操作步骤</p><p>1.去找个slave,bgsave一下，生成rdb文件</p><p>2.使用rdb工具分析rdb文件生成csv文件</p><pre><code>rdb -c memory redis6379.rdb --bytes 0 -f memory.csv查看下csv文件cat memory.csv   database,type,key,size_in_bytes,encoding,num_elements,len_largest_element0,string,ops.073a7ae3d0fec21cd13c7a34d497cb70,304,string,210,2100,string,test12,48,string,8,80,string,ops.5c8b7a27fd1597ef3202e9e4906cb630,304,string,194,1940,hash,bach-price-dev.2ssku_inventory_price_100016002,5651,ziplist,323,90,set,monitor_device_list,83588,hashtable,920,370,string,ops.e58ccdb5730ae3dbdbcb7103747b228b,304,string,194,1940,string,test4,48,string,8,80,string,ops.8bf1f83967a11fffb7ed55ac1f42fa10,304,string,213,2130,string,test17,48,string,8,8把第一行数据表头去了，方便导入MySQL分析</code></pre><p>3.创建MySQL统计表</p><pre><code>创建统计表create table memory_count(id int primary key auto_increment,db int not null default 0 ,key_type varchar(20) not null,key_name varchar(200) not null,key_size_in_bytes bigint not null,key_encoding varchar(20) not null,key_num_elements bigint not null,key_len_largest_element  bigint not null);</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">show create table memory_count;</div><div class="line">memory_count | CREATE TABLE `memory_count` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `db` int(11) NOT NULL DEFAULT &apos;0&apos;,</div><div class="line">  `key_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,</div><div class="line">  `key_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,</div><div class="line">  `key_size_in_bytes` bigint(20) NOT NULL,</div><div class="line">  `key_encoding` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,</div><div class="line">  `key_num_elements` bigint(20) NOT NULL,</div><div class="line">  `key_len_largest_element` bigint(20) NOT NULL,</div><div class="line">  PRIMARY KEY (`id`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</div></pre></td></tr></table></figure><p>4.导入到MySQL</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">把文件移动到这个变量路径下</div><div class="line">SHOW VARIABLES LIKE &quot;secure_file_priv&quot;; </div><div class="line"></div><div class="line">load语句</div><div class="line">LOAD DATA INFILE &apos;/var/lib/mysql-files/memory.csv&apos; </div><div class="line">INTO TABLE  memory_count</div><div class="line">FIELDS TERMINATED BY &apos;,&apos; </div><div class="line">OPTIONALLY ENCLOSED BY &apos;&quot;&apos; </div><div class="line">ESCAPED BY &apos;&quot;&apos; </div><div class="line">LINES TERMINATED BY &apos;\n&apos;</div><div class="line">(db,key_type,key_name,key_size_in_bytes,key_encoding,key_num_elements,key_len_largest_element)</div><div class="line"></div><div class="line">到了MySQL里面，可以随便定制SQL统计语句了</div><div class="line">select left(key_name, 20),sum(key_size_in_bytes) from memory_count group by left(key_name, 20) order by sum(key_size_in_bytes) desc;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Redis集群内存暴增，需要下集群中哪类key占用内存比较多，简述下我的思路和操作步骤&lt;/p&gt;
+&lt;p&gt;1.去找个slave,bgsave一下，生成rdb文件&lt;/p&gt;
+&lt;p&gt;2.使用rdb工具分析rdb文件生成csv文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rdb -c memor
+      
+    
+    </summary>
+    
+      <category term="Redis" scheme="https://daminger.github.io/categories/Redis/"/>
+    
+    
+      <category term="Redis" scheme="https://daminger.github.io/tags/Redis/"/>
+    
+  </entry>
   
   <entry>
     <title>基于Falcon的ES监控</title>

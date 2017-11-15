@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://daminger.github.io/2017/11/15/redis-analyze-memory/</loc>
+    <lastmod>2017-11-15T14:28:06.000Z</lastmod>
+    <data>
+        <display>
+        <title>Redis_分析集群中key的内存情况</title>
+        <pubTime>2017-11-15T14:11:32.000Z</pubTime>
+        
+        <tag>Redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="https://daminger.github.io/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://daminger.github.io/2017/11/12/elk-es-monitor-falcon/</loc>
     <lastmod>2017-11-12T12:23:21.000Z</lastmod>
     <data>
