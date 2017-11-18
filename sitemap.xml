@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daminger.github.io/2017/11/18/mysql-timestamp/</loc>
+    
+    <lastmod>2017-11-18T10:38:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daminger.github.io/2017/11/15/redis-analyze-memory/</loc>
     
     <lastmod>2017-11-15T14:28:06.000Z</lastmod>

@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MySQL,time_stamp," />
 
 
 
@@ -83,16 +83,18 @@
 
 
 
-<meta name="description" content="知行合一">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DaMing&#39;s Notes">
-<meta property="og:url" content="https://daminger.github.io/categories/读书笔记/index.html">
+<meta name="description" content="MySQL版本mysql5.6.36,测试了解time_stamp的基本用法 1.timestamp类型允许一个表里可以有多列字段拥有自动插入时间和自动更新时间,更新其他列的时候，带有ON UPDATE CURRENT_TIMESTAMP的字段都会更新时间 12345678910111213141516171819202122232425262728293031323334353637383940">
+<meta name="keywords" content="MySQL,time_stamp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL time_stamp字段基本用法">
+<meta property="og:url" content="https://daminger.github.io/2017/11/18/mysql-timestamp/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
-<meta property="og:description" content="知行合一">
+<meta property="og:description" content="MySQL版本mysql5.6.36,测试了解time_stamp的基本用法 1.timestamp类型允许一个表里可以有多列字段拥有自动插入时间和自动更新时间,更新其他列的时候，带有ON UPDATE CURRENT_TIMESTAMP的字段都会更新时间 12345678910111213141516171819202122232425262728293031323334353637383940">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-18T10:38:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DaMing&#39;s Notes">
-<meta name="twitter:description" content="知行合一">
+<meta name="twitter:title" content="MySQL time_stamp字段基本用法">
+<meta name="twitter:description" content="MySQL版本mysql5.6.36,测试了解time_stamp的基本用法 1.timestamp类型允许一个表里可以有多列字段拥有自动插入时间和自动更新时间,更新其他列的时候，带有ON UPDATE CURRENT_TIMESTAMP的字段都会更新时间 12345678910111213141516171819202122232425262728293031323334353637383940">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/categories/读书笔记/"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/11/18/mysql-timestamp/"/>
 
 
 
 
 
-  <title>分类: 读书笔记 | DaMing's Notes</title>
+  <title>MySQL time_stamp字段基本用法 | DaMing's Notes</title>
   
 
 
@@ -147,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -285,111 +287,250 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>读书笔记<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/11/18/mysql-timestamp/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaMing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DaMing's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2017/10/10/book_炒股的智慧/" itemprop="url">
-              
-                <span itemprop="name">读书笔记【炒股的智慧】</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">MySQL time_stamp字段基本用法</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-10T20:26:28+08:00"
-              content="2017-10-10" >
-          10-10
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-18T18:33:35+08:00">
+                2017-11-18
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/09/book_高效能人士的七个习惯/" itemprop="url">
-              
-                <span itemprop="name">读书笔记【高效能人士的七个习惯】</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-09T01:09:27+08:00"
-              content="2017-10-09" >
-          10-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/05/book_流星蝴蝶剑/" itemprop="url">
-              
-                <span itemprop="name">读书笔记【流星蝴蝶剑】</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-05T13:33:30+08:00"
-              content="2017-10-05" >
-          10-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>MySQL版本mysql5.6.36,测试了解time_stamp的基本用法</p>
+<p>1.timestamp类型允许一个表里可以有多列字段拥有自动插入时间和自动更新时间,更新其他列的时候，带有ON UPDATE CURRENT_TIMESTAMP的字段都会更新时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE time_test (</div><div class="line">    -&gt;    id int(11),</div><div class="line">    -&gt;    time_1 timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</div><div class="line">    -&gt;    time_2 timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</div><div class="line">    -&gt; ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;</div><div class="line">Query OK, 0 rows affected (0.31 sec)</div><div class="line"></div><div class="line">mysql&gt; show create table time_test;</div><div class="line">+-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table     | Create Table                                                                                                                                                                                                                                                          |</div><div class="line">+-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| time_test | CREATE TABLE `time_test` (</div><div class="line">  `id` int(11) DEFAULT NULL,</div><div class="line">  `time_1` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</div><div class="line">  `time_2` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</div><div class="line">+-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line"></div><div class="line">mysql&gt; insert time_test(id) values (1);</div><div class="line">Query OK, 1 row affected (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from time_test;</div><div class="line">+------+---------------------+---------------------+</div><div class="line">| id   | time_1              | time_2              |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">|    1 | 2017-11-14 17:44:49 | 2017-11-14 17:44:49 |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">1 row in set (0.01 sec)</div><div class="line"></div><div class="line">mysql&gt; update time_test set id =2 where id=1;</div><div class="line">Query OK, 1 row affected (0.05 sec)</div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; select * from time_test;</div><div class="line">+------+---------------------+---------------------+</div><div class="line">| id   | time_1              | time_2              |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">|    2 | 2017-11-14 17:45:20 | 2017-11-14 17:45:20 |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p>2.允许一列字段有自动插入时间属性，另一列字段只有自动更新时间属性，但是会默认赋予DEFAULT ‘0000-00-00 00:00:00’，更新其他列的时候，带有自动更新时间属性的字段会被更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE TABLE time_test_3 (</div><div class="line">    -&gt;     id int(11),</div><div class="line">    -&gt;     time_1 timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,</div><div class="line">    -&gt;     time_2 timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP</div><div class="line">    -&gt;  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;</div><div class="line">Query OK, 0 rows affected (0.08 sec)</div><div class="line"></div><div class="line">mysql&gt; show create table time_test_3;</div><div class="line">+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table       | Create Table                                                                                                                                                                                                                                    |</div><div class="line">+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| time_test_3 | CREATE TABLE `time_test_3` (</div><div class="line">  `id` int(11) DEFAULT NULL,</div><div class="line">  `time_1` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,</div><div class="line">  `time_2` timestamp NOT NULL DEFAULT &apos;0000-00-00 00:00:00&apos; ON UPDATE CURRENT_TIMESTAMP</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</div><div class="line">+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.01 sec)</div><div class="line"></div><div class="line"></div><div class="line">mysql&gt; insert time_test_3(id) values(1),(2);</div><div class="line">Query OK, 2 rows affected (0.01 sec)</div><div class="line">Records: 2  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; select * from  time_test_3;</div><div class="line">+------+---------------------+---------------------+</div><div class="line">| id   | time_1              | time_2              |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">|    1 | 2017-11-14 17:53:43 | 0000-00-00 00:00:00 |</div><div class="line">|    2 | 2017-11-14 17:53:43 | 0000-00-00 00:00:00 |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">2 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; update time_test_3 set id=3 where id =2;</div><div class="line">Query OK, 1 row affected (0.01 sec)</div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; select * from  time_test_3;</div><div class="line">+------+---------------------+---------------------+</div><div class="line">| id   | time_1              | time_2              |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">|    1 | 2017-11-14 17:53:43 | 0000-00-00 00:00:00 |</div><div class="line">|    3 | 2017-11-14 17:53:43 | 2017-11-14 17:54:44 |</div><div class="line">+------+---------------------+---------------------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p>3.为多个字段指定timestamp字段，但不显示指明属性，会为第一个timestamp字段设置属性DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP，剩余timestamp字段设置 DEFAULT ‘0000-00-00 00:00:00’属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">mysql&gt; CREATE TABLE `time_test2`(id int,time_1 timestamp,time_2 timestamp);</div><div class="line">Query OK, 0 rows affected (0.07 sec)</div><div class="line"></div><div class="line">mysql&gt; show create table time_test2;</div><div class="line">+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table      | Create Table                                                                                                                                                                                                                                                                 |</div><div class="line">+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| time_test2 | CREATE TABLE `time_test2` (</div><div class="line">  `id` int(11) DEFAULT NULL,</div><div class="line">  `time_1` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</div><div class="line">  `time_2` timestamp NOT NULL DEFAULT &apos;0000-00-00 00:00:00&apos;</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |</div><div class="line">+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.01 sec)</div></pre></td></tr></table></figure>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏杯咖啡?</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="DaMing 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="DaMing 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    DaMing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://daminger.github.io/2017/11/18/mysql-timestamp/" title="MySQL time_stamp字段基本用法">https://daminger.github.io/2017/11/18/mysql-timestamp/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/time-stamp/" rel="tag"># time_stamp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/15/redis-analyze-memory/" rel="next" title="Redis_分析集群中key的内存情况">
+                <i class="fa fa-chevron-left"></i> Redis_分析集群中key的内存情况
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
 
 
           </div>
@@ -397,6 +538,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -663,6 +808,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
