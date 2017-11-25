@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="MySQL,Load data," />
+  <meta name="keywords" content="读书笔记,个人成长," />
 
 
 
@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="今天刚到公司，手机接到主从延时的报警，登录线上机器，发现是一条load data语句导致的。 1234567891011121314151617181920212223242526272829load data LOW_PRIORITY local infile &amp;apos;/data/tmp/job-temp/app_ordering_system_maiev_check_reference_d">
-<meta name="keywords" content="MySQL,Load data">
+<meta name="description" content="最近读到一本被洗脑的书籍，叫做《原则》，作者是美国对冲基金教父雷.达里奥，他提出一系列原则，并不断的实践=》反思=》更新自我=》实践，形成闭环，帮助自己在生活、事业、家庭等方面取得巨大的成功。 干货太多，我摘录部分对我触动比较大的地方。 首先要学会质疑，在消化每条原则时，作者请读者做到以下这条：…ask yourself: “Is it true?”  什么是原则？价值观是你认为重要的、“有价值”">
+<meta name="keywords" content="读书笔记,个人成长">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL的Load data的权限误区">
-<meta property="og:url" content="https://daminger.github.io/2017/11/01/mysql-loaddata/index.html">
+<meta property="og:title" content="读书笔记【原则】">
+<meta property="og:url" content="https://daminger.github.io/2017/11/25/book-原则/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
-<meta property="og:description" content="今天刚到公司，手机接到主从延时的报警，登录线上机器，发现是一条load data语句导致的。 1234567891011121314151617181920212223242526272829load data LOW_PRIORITY local infile &amp;apos;/data/tmp/job-temp/app_ordering_system_maiev_check_reference_d">
+<meta property="og:description" content="最近读到一本被洗脑的书籍，叫做《原则》，作者是美国对冲基金教父雷.达里奥，他提出一系列原则，并不断的实践=》反思=》更新自我=》实践，形成闭环，帮助自己在生活、事业、家庭等方面取得巨大的成功。 干货太多，我摘录部分对我触动比较大的地方。 首先要学会质疑，在消化每条原则时，作者请读者做到以下这条：…ask yourself: “Is it true?”  什么是原则？价值观是你认为重要的、“有价值”">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-01T14:09:27.000Z">
+<meta property="og:updated_time" content="2017-11-25T11:09:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL的Load data的权限误区">
-<meta name="twitter:description" content="今天刚到公司，手机接到主从延时的报警，登录线上机器，发现是一条load data语句导致的。 1234567891011121314151617181920212223242526272829load data LOW_PRIORITY local infile &amp;apos;/data/tmp/job-temp/app_ordering_system_maiev_check_reference_d">
+<meta name="twitter:title" content="读书笔记【原则】">
+<meta name="twitter:description" content="最近读到一本被洗脑的书籍，叫做《原则》，作者是美国对冲基金教父雷.达里奥，他提出一系列原则，并不断的实践=》反思=》更新自我=》实践，形成闭环，帮助自己在生活、事业、家庭等方面取得巨大的成功。 干货太多，我摘录部分对我触动比较大的地方。 首先要学会质疑，在消化每条原则时，作者请读者做到以下这条：…ask yourself: “Is it true?”  什么是原则？价值观是你认为重要的、“有价值”">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/2017/11/01/mysql-loaddata/"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/11/25/book-原则/"/>
 
 
 
 
 
-  <title>MySQL的Load data的权限误区 | DaMing's Notes</title>
+  <title>读书笔记【原则】 | DaMing's Notes</title>
   
 
 
@@ -301,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/11/01/mysql-loaddata/">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/11/25/book-原则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaMing">
@@ -318,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySQL的Load data的权限误区</h1>
+          <h1 class="post-title" itemprop="name headline">读书笔记【原则】</h1>
         
 
         <div class="post-meta">
@@ -330,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T21:41:32+08:00">
-                2017-11-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-25T19:04:34+08:00">
+                2017-11-25
               </time>
             
 
@@ -353,8 +353,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
                   </a>
                 </span>
 
@@ -390,15 +390,29 @@
       
 
       
-        <p>今天刚到公司，手机接到主从延时的报警，登录线上机器，发现是一条load data语句导致的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">load data LOW_PRIORITY local infile &apos;/data/tmp/job-temp/app_ordering_system_maiev_check_reference_data_20171031&apos; replace into table order_check fields terminated by &apos;\t&apos; ( order_date</div><div class="line">,batch_code</div><div class="line">,transport_num</div><div class="line">,shop_code</div><div class="line">,shop_name</div><div class="line">,mid_classify_code</div><div class="line">,mid_classify_name</div><div class="line">,sku_main_code</div><div class="line">,sku_code</div><div class="line">,sku_name</div><div class="line">,sku_type</div><div class="line">,whether_new</div><div class="line">,whether_popular</div><div class="line">,sale_level</div><div class="line">,booking_spec</div><div class="line">,yesterday_stock</div><div class="line">,refer_abandon_amount</div><div class="line">,sale_amount_day</div><div class="line">,order_amount_day</div><div class="line">,expiration</div><div class="line">,whether_yummy</div><div class="line">,purchasing_unit_price</div><div class="line">,shop_start_date</div><div class="line">,shop_state</div><div class="line">,shop_business_state</div><div class="line">,picking_type</div><div class="line">,booking_qty</div><div class="line">,shop_type</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>延迟原因很清晰明了，但是我看了下这个库不是数据组的业务，按理说不应该有load data权限，我找到账号，show grants一下，确实只有增删改查权限，找对应RD也确认了下，确实刚才使用这个账号执行了这个语句，线上数据库版本是MySQL Community 5.6.36，我在测试环境上也能够复现这个情景。原先我以为load data权限怎么也得有file权限，看来存在误区。</p>
-<p>上网搜了搜，看到这段解释解决了我的疑问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- load data infile into table table_name ; </div><div class="line">  执行命令的用户有权限访问的文件，然后load到DB中,并且需要file权限。</div><div class="line">  </div><div class="line">- load data local infile  into table table_name ;</div><div class="line">  只要是客户端用户有权限访问的文件，都可以上传到服务端，然后load到DB中，这样是特别危险的。</div><div class="line">  注意：此时的load data不需要file权限！</div><div class="line"></div><div class="line">- select * from t into outfile &apos;filename&apos;;</div><div class="line">  先看运行mysqld的用户有没有对存放文件的目录有写权限，再看执行命令的用户有没有file权限.</div></pre></td></tr></table></figure>
-<p>解决办法，针对load data local infile,扫描线上MySQL参数local_infile的值，设置成OFF即可。</p>
-<p>反思</p>
+        <p>最近读到一本被洗脑的书籍，叫做《原则》，作者是美国对冲基金教父雷.达里奥，他提出一系列原则，并不断的实践=》反思=》更新自我=》实践，形成闭环，帮助自己在生活、事业、家庭等方面取得巨大的成功。</p>
+<p>干货太多，我摘录部分对我触动比较大的地方。</p>
+<p>首先要学会质疑，在消化每条原则时，作者请读者做到以下这条：…ask yourself: “Is it true?” </p>
+<p>什么是原则？价值观是你认为重要的、“有价值”的东西，而在生活中若想顺从自己的价值观，我们需要的就是原则。原则连接价值观与行动，它如指引行动的灯塔，帮你成功应对现实生活中的条条框框。当面临两难抉择之时，遵循原则就能迎刃而解。如果没有原则，那么当你面临抉择之时，你将变得非常被动，因为你不知道自己最珍视什么，面对选择也无从下手。如此一来，就更别谈实现人生价值了。</p>
+<p>你的处事原则会决定你的行为标准，当你同他人初识时，你们各自恪守的原则将会决定你们的互动模式，若你们的价值观与原则能够达到共享，大家就相处愉快，否则在相处中就会面临持续不断的误解和冲突。人与人的关系中，人们所秉持的原则大都模糊不清。</p>
+<p>来自自身经历与反思的原则最有价值。每当面临两难抉择之际，我们会扪心自问，反复琢磨，在这样的过程中完善我们的原则。如果你有这样一个原则，“我绝不会偷东西”，那当你面对偷或不偷的选择时，就会适用这一原则。然而如果想要使选择的过程更加高效，那么每一项原则就必须与个人的价值观一致。为了满足这种一致性，就不得不再问问自己：为什么不偷？不偷的理由是因为同情潜在的受害者吗？还是因为害怕被抓？只有问过了这些问题，我们才能更深入地了解自己。原则在不断发展中，会和我们的核心价值观越来越一致。想要成功，就必须做出正确的、艰难的选择。你必须要有壮士断腕的勇气，个人处事如此，在领导一个团队时，也是如此。如果想要成为一个成功的领导者，就必须谨记，选择需是本着对团队成员的理解和关心做出的，而不仅仅是为了顺应他们。</p>
 <ul>
-<li>对看有疑惑的问题，一定要先记录下来，想办法去解决，不断走出自己的知识误区。</li>
+<li>It isn’t easy for me to be confident that my opinions are right.（坚信自己的观点都是对的可不是件容易的事情，这是个两面性的事情，你的观点对了，要经受住质疑，你的观点本身是错的话，会很可悲）</li>
+<li>Bad opinions can be very costly.（某些情况下犯错成本是极高的）</li>
+<li>The consensus is often wrong, so I have to be an independent thinker（独立思考，不要受大部分的人的思维干扰）</li>
+<li>I worked for what I wanted, not for what others wanted me to do（这点基于现实还是有点难的，但是在自己掌控的时间里，可以做到）</li>
+<li>I came up with the best independent opinions I could muster to get what I wanted.</li>
+<li>I stress-tested my opinions by having the smartest people I could find challenge them so I could find out where I was wrong（找更优秀的人，压测自己的观点和方案，跳出思维局限）</li>
+<li>I remained wary about being overconfident, and I figured out how to effectively deal with my not knowing.（我不敢太过自信，而是想办法有效处理我所不知道的事情，其实就是做事情把控制风险）</li>
+<li>I wrestled with my realities, reflected on the consequences of my decisions, and learned and improved from this process. （我同现实展开斗争，反思所做决定带来的后果，从中学习与提高）</li>
+<li>Truth — more precisely, an accurate understanding of reality — is the essential foundation for producing good outcomes. （真相：具体来说，就是精准理解现实 —— 这是达成良好结果的最重要根基。）</li>
+<li>The most important quality that differentiates successful people from unsuccessful people is our capacity to learn and adapt to these things. （区分成功人士与平庸之辈最重要的品质就是学习能力和适应能力。不能做到终身学习和思考，很快被这个时代所淘汰，真心感受，要跳出自我设限）</li>
+<li>As I mentioned before, I believe that life consists of an enormous number of choices that come at us and that each decision we make has consequences, so the quality of our lives depends on the quality ofthe decisions we make.（选择的质量决定的我们的生活）</li>
+<li>Reality + Dreams + Determination = A Successful Life （至今我还没搞清楚我的梦想是啥？）</li>
+<li>Pain + Reflection = Progress （痛苦加反思才有可能进步）</li>
+<li>In summary, I believe that you can probably get what you want out of life if you can suspend your ego and take a no-excuses approach to achieving your goals with open -mindedness, determination, and courage, especially if you rely on the help of people who are strong in areas that you are weak. （我认为要实现梦想，你得清除自我设障，做事不找借口、思维开放、下定决心、富有勇气，尤其要依靠那些在你不擅长的领域表现优秀之人。）</li>
+<li>In summary, I don’t believe that limited abilities are an insurmountable barrier to achieving yourgoals, if you do the other things right. （我不认为有限的能力是实现目标不可逾越的障碍，能把其他的事情做好，也能弥补自身的缺陷。）</li>
+<li>The biggest mistake most people make is to not see themselves and others objectively. If theycould just get around this, they could live up to their potentials. （很多人最大的错误就是没能客观看待自己或他人，克服了这点就能实现自身潜力的发展。）</li>
 </ul>
 
       
@@ -449,7 +463,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://daminger.github.io/2017/11/01/mysql-loaddata/" title="MySQL的Load data的权限误区">https://daminger.github.io/2017/11/01/mysql-loaddata/</a>
+    <a href="https://daminger.github.io/2017/11/25/book-原则/" title="读书笔记【原则】">https://daminger.github.io/2017/11/25/book-原则/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -464,9 +478,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
           
-            <a href="/tags/Load-data/" rel="tag"># Load data</a>
+            <a href="/tags/个人成长/" rel="tag"># 个人成长</a>
           
         </div>
       
@@ -479,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/29/elk-how-to-install-es/" rel="next" title="ELK_ElasticSearch5.5.1版本快速部署">
-                <i class="fa fa-chevron-left"></i> ELK_ElasticSearch5.5.1版本快速部署
+              <a href="/2017/11/18/mysql-timestamp/" rel="next" title="MySQL time_stamp字段基本用法">
+                <i class="fa fa-chevron-left"></i> MySQL time_stamp字段基本用法
               </a>
             
           </div>
@@ -488,10 +502,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/05/elk-install-es-ik/" rel="prev" title="如何安装ES的IK插件">
-                如何安装ES的IK插件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
