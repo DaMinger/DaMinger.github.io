@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MySQL,replace," />
 
 
 
@@ -83,14 +83,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="DaMing&#39;s Notes">
-<meta property="og:url" content="https://daminger.github.io/404/404.html">
+<meta name="description" content="周二做了个主从切换，然后半夜被RD打电话叫起来，说插入主键报重复主键错误，我登录到机器上一看，表中的最大主键ID确实大于表的auto_increment值，临时处理了下，先恢复业务，那为什么会出现这种情况？第二天和RD沟通后，他们业务中有replace操作，我怀疑这个操作会导致主从auto_increment不一致。 试验：构造表结构和数据 1234567891011121314151617181">
+<meta name="keywords" content="MySQL,replace">
+<meta property="og:type" content="article">
+<meta property="og:title" content="replace操作导致主从auto_increment不一致">
+<meta property="og:url" content="https://daminger.github.io/2017/12/03/mysql-replace-autoincrement-inconsistent/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
+<meta property="og:description" content="周二做了个主从切换，然后半夜被RD打电话叫起来，说插入主键报重复主键错误，我登录到机器上一看，表中的最大主键ID确实大于表的auto_increment值，临时处理了下，先恢复业务，那为什么会出现这种情况？第二天和RD沟通后，他们业务中有replace操作，我怀疑这个操作会导致主从auto_increment不一致。 试验：构造表结构和数据 1234567891011121314151617181">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-02T04:29:39.000Z">
+<meta property="og:updated_time" content="2017-12-03T13:30:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DaMing&#39;s Notes">
+<meta name="twitter:title" content="replace操作导致主从auto_increment不一致">
+<meta name="twitter:description" content="周二做了个主从切换，然后半夜被RD打电话叫起来，说插入主键报重复主键错误，我登录到机器上一看，表中的最大主键ID确实大于表的auto_increment值，临时处理了下，先恢复业务，那为什么会出现这种情况？第二天和RD沟通后，他们业务中有replace操作，我怀疑这个操作会导致主从auto_increment不一致。 试验：构造表结构和数据 1234567891011121314151617181">
 
 
 
@@ -120,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/404/404.html"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/12/03/mysql-replace-autoincrement-inconsistent/"/>
 
 
 
 
 
-  <title> | DaMing's Notes</title>
+  <title>replace操作导致主从auto_increment不一致 | DaMing's Notes</title>
   
 
 
@@ -285,49 +289,263 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/12/03/mysql-replace-autoincrement-inconsistent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaMing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DaMing's Notes">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <!DOCTYPE HTML>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=utf-8;">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="robots" content="all">
-  <meta name="robots" content="index,follow">
-  <link rel="stylesheet" type="text/css" href="https://qzone.qq.com/gy/404/style/404style.css">
-</head>
-<body>
-  <script type="text/plain" src="http://www.qq.com/404/search_children.js" charset="utf-8" homepageurl="/" homepagename="回到我的主页">
-  </script>
-  <script src="https://qzone.qq.com/gy/404/data.js" charset="utf-8"></script>
-  <script src="https://qzone.qq.com/gy/404/page.js" charset="utf-8"></script>
-</body>
-</html>
-
+          <h1 class="post-title" itemprop="name headline">replace操作导致主从auto_increment不一致</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T21:28:06+08:00">
+                2017-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>周二做了个主从切换，然后半夜被RD打电话叫起来，说插入主键报重复主键错误，我登录到机器上一看，表中的最大主键ID确实大于表的auto_increment值，临时处理了下，先恢复业务，那为什么会出现这种情况？第二天和RD沟通后，他们业务中有replace操作，我怀疑这个操作会导致主从auto_increment不一致。</p>
+<p>试验：<br>构造表结构和数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">master:</div><div class="line">mysql&gt; CREATE TABLE `t` (</div><div class="line">    -&gt;   `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">    -&gt;   `age` int(11) DEFAULT NULL,</div><div class="line">    -&gt;   `msg` varchar(10) DEFAULT NULL,</div><div class="line">    -&gt;   PRIMARY KEY (`id`),</div><div class="line">    -&gt;   UNIQUE KEY `uniq_age` (`age`)</div><div class="line">    -&gt; ) ENGINE=InnoDB DEFAULT CHARSET=utf8;</div><div class="line">Query OK, 0 rows affected (0.30 sec)</div><div class="line"></div><div class="line">mysql&gt; insert into t (age, msg) values (1,&apos;aaa&apos;),(2,&apos;bbb&apos;),(3,&apos;ccc&apos;);</div><div class="line">Query OK, 3 rows affected (0.01 sec)</div><div class="line">Records: 3  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; select * from t;</div><div class="line">+----+------+------+</div><div class="line">| id | age  | msg  |</div><div class="line">+----+------+------+</div><div class="line">|  1 |    1 | aaa  |</div><div class="line">|  2 |    2 | bbb  |</div><div class="line">|  3 |    3 | ccc  |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; show create table t;</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table | Create Table                                                                                                                                                                                                                           |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| t     | CREATE TABLE `t` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `age` int(11) DEFAULT NULL,</div><div class="line">  `msg` varchar(10) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `uniq_age` (`age`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">slave:</div><div class="line">mysql&gt; show create table t;</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table | Create Table                                                                                                                                                                                                                           |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| t     | CREATE TABLE `t` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `age` int(11) DEFAULT NULL,</div><div class="line">  `msg` varchar(10) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `uniq_age` (`age`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.03 sec)</div></pre></td></tr></table></figure>
+<p>进行replace操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">master:</div><div class="line">mysql&gt; replace into t (age, msg) values (1, &apos;111&apos;);</div><div class="line">Query OK, 2 rows affected (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from t;</div><div class="line">+----+------+------+</div><div class="line">| id | age  | msg  |</div><div class="line">+----+------+------+</div><div class="line">|  2 |    2 | bbb  |</div><div class="line">|  3 |    3 | ccc  |</div><div class="line">|  4 |    1 | 111  |</div><div class="line">+----+------+------+</div><div class="line">3 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; show create table t;</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table | Create Table                                                                                                                                                                                                                           |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| t     | CREATE TABLE `t` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `age` int(11) DEFAULT NULL,</div><div class="line">  `msg` varchar(10) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `uniq_age` (`age`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p>我们看到replace操作，有2行被影响，auto_increment自动+1，网上查资料得知：对于已经存在的数据，replace操作相当于进行update操作，而update实际是delete+insert两个连续操作，insert会导致auto_incement+1,但是binlog只会产生一条update语句。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">binlog记录：确实只有一条update</div><div class="line">#171203 16:54:34 server id 114133006  end_log_pos 779912805     Table_map: `test`.`t` mapped to number 138</div><div class="line"># at 779912805</div><div class="line">#171203 16:54:34 server id 114133006  end_log_pos 779912863     Update_rows: table id 138 flags: STMT_END_F</div><div class="line"></div><div class="line">BINLOG &apos;</div><div class="line">yrsjWhMOiM0GLAAAAGWGfC4AAIoAAAAAAAEABHRlc3QAAXQAAwMDDwIeAAY=</div><div class="line">yrsjWh8OiM0GOgAAAJ+GfC4AAIoAAAAAAAEAAgAD///4AQAAAAEAAAADYWFh+AQAAAABAAAAAzEx</div><div class="line">MQ==</div><div class="line">&apos;/*!*/;</div><div class="line">### UPDATE `test`.`t`</div><div class="line">### WHERE</div><div class="line">###   @1=1 /* INT meta=0 nullable=0 is_null=0 */</div><div class="line">###   @2=1 /* INT meta=0 nullable=1 is_null=0 */</div><div class="line">###   @3=&apos;aaa&apos; /* VARSTRING(30) meta=30 nullable=1 is_null=0 */</div><div class="line">### SET</div><div class="line">###   @1=4 /* INT meta=0 nullable=0 is_null=0 */</div><div class="line">###   @2=1 /* INT meta=0 nullable=1 is_null=0 */</div><div class="line">###   @3=&apos;111&apos; /* VARSTRING(30) meta=30 nullable=1 is_null=0 */</div><div class="line"># at 779912863</div><div class="line">#171203 16:54:34 server id 114133006  end_log_pos 779912890     Xid = 9277304</div><div class="line">COMMIT/*!*/;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">slave:从库只会接受到update的binlog,auto_increment不会加+1</div><div class="line">mysql&gt; show create table t;</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table | Create Table                                                                                                                                                                                                                           |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| t     | CREATE TABLE `t` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `age` int(11) DEFAULT NULL,</div><div class="line">  `msg` varchar(10) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `uniq_age` (`age`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 |</div><div class="line">+-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p>至此主从auto_increment的不一致的原因已经定位到。</p>
+<p>隐患点：<br>主从切换后，业务如有replace操作，可能造成新主库写入失败。</p>
+<p>如何解决?</p>
+<p>先了解下算法：MySQL对于auto_increment的算法是select max(id)+1 from t的方法来拿到auto_inrement的值。</p>
+<p>淘宝的分享解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">建表时可以指定 AUTO_INCREMENT值，不指定时默认为1，这个值表示当前自增列的起始值大小，</div><div class="line">如果新插入的数据没有指定自增列的值，那么自增列的值即为这个起始值。</div><div class="line">对于InnoDB表，这个值没有持久到文件中,而是存在内存中（dict_table_struct.autoinc）。</div><div class="line">那么又问，既然这个值没有持久下来，为什么我们每次插入新的值后， show create table t1看到AUTO_INCREMENT值是跟随变化的。</div><div class="line">其实show create table t1是直接从dict_table_struct.autoinc取得的（ha_innobase::update_create_info）。</div></pre></td></tr></table></figure>
+<p>解决办法</p>
+<ul>
+<li>重启从库，所有表的auto_increment会修正。</li>
+<li>插入新数据后，自增值自动追平，主库replace后如果有insert语句，这样会自动追平的。</li>
+</ul>
+<p>延伸</p>
+<ul>
+<li>insert into .. on duplicate key update语句 碰到表中已经存在要replace的数据，也会导致主从auto_increment不一致</li>
+</ul>
+
       
     </div>
     
     
     
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏杯咖啡?</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="DaMing 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="DaMing 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    DaMing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://daminger.github.io/2017/12/03/mysql-replace-autoincrement-inconsistent/" title="replace操作导致主从auto_increment不一致">https://daminger.github.io/2017/12/03/mysql-replace-autoincrement-inconsistent/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/replace/" rel="tag"># replace</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/25/book-原则/" rel="next" title="读书笔记【原则】">
+                <i class="fa fa-chevron-left"></i> 读书笔记【原则】
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
   </div>
 
 
