@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daminger.github.io/2017/12/10/mysql-charset/</loc>
+    
+    <lastmod>2017-12-10T05:20:49.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daminger.github.io/2017/12/03/mysql-replace-autoincrement-inconsistent/</loc>
     
     <lastmod>2017-12-03T13:30:07.000Z</lastmod>
