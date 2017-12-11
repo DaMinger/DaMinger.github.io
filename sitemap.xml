@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daminger.github.io/2017/12/11/mysql-orderby/</loc>
+    
+    <lastmod>2017-12-11T15:51:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daminger.github.io/2017/12/10/mysql-charset/</loc>
     
     <lastmod>2017-12-10T05:20:49.000Z</lastmod>

@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MySQL,orderby," />
 
 
 
@@ -83,17 +83,18 @@
 
 
 
-<meta name="description" content="知行合一">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tags">
-<meta property="og:url" content="https://daminger.github.io/tags/index.html">
+<meta name="description" content="今天业务碰到一个线上问题,业务order by字段shopcode，用limit m,n做分页，希望按照shopcode排序获取所有的数据，但是遍历完一遍，发现有的数据没有获取到。挺奇怪的，于是做了个实验，复现了情景。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
+<meta name="keywords" content="MySQL,orderby">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对MySQL关于order by+limit理解的一个误区">
+<meta property="og:url" content="https://daminger.github.io/2017/12/11/mysql-orderby/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
-<meta property="og:description" content="知行合一">
+<meta property="og:description" content="今天业务碰到一个线上问题,业务order by字段shopcode，用limit m,n做分页，希望按照shopcode排序获取所有的数据，但是遍历完一遍，发现有的数据没有获取到。挺奇怪的，于是做了个实验，复现了情景。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-02T12:03:53.000Z">
+<meta property="og:updated_time" content="2017-12-11T15:51:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tags">
-<meta name="twitter:description" content="知行合一">
+<meta name="twitter:title" content="对MySQL关于order by+limit理解的一个误区">
+<meta name="twitter:description" content="今天业务碰到一个线上问题,业务order by字段shopcode，用limit m,n做分页，希望按照shopcode排序获取所有的数据，但是遍历完一遍，发现有的数据没有获取到。挺奇怪的，于是做了个实验，复现了情景。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
 
 
 
@@ -123,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/tags/"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/12/11/mysql-orderby/"/>
 
 
 
 
 
-  <title>Tags | DaMing's Notes</title>
+  <title>对MySQL关于order by+limit理解的一个误区 | DaMing's Notes</title>
   
 
 
@@ -288,40 +289,253 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/12/11/mysql-orderby/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaMing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DaMing's Notes">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">Tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                目前共计 22 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/DBA/" style="font-size: 12px; color: #ccc">DBA</a> <a href="/tags/ELK/" style="font-size: 21px; color: #6f6f6f">ELK</a> <a href="/tags/ElasticSearch/" style="font-size: 16.5px; color: #9d9d9d">ElasticSearch</a> <a href="/tags/Email/" style="font-size: 12px; color: #ccc">Email</a> <a href="/tags/IK插件/" style="font-size: 12px; color: #ccc">IK插件</a> <a href="/tags/Inception/" style="font-size: 25.5px; color: #404040">Inception</a> <a href="/tags/Load-data/" style="font-size: 12px; color: #ccc">Load data</a> <a href="/tags/MySQL/" style="font-size: 30px; color: #111">MySQL</a> <a href="/tags/Redis/" style="font-size: 12px; color: #ccc">Redis</a> <a href="/tags/orderby/" style="font-size: 12px; color: #ccc">orderby</a> <a href="/tags/replace/" style="font-size: 12px; color: #ccc">replace</a> <a href="/tags/time-stamp/" style="font-size: 12px; color: #ccc">time_stamp</a> <a href="/tags/个人成长/" style="font-size: 21px; color: #6f6f6f">个人成长</a> <a href="/tags/反思/" style="font-size: 12px; color: #ccc">反思</a> <a href="/tags/古龙/" style="font-size: 12px; color: #ccc">古龙</a> <a href="/tags/工作技能/" style="font-size: 16.5px; color: #9d9d9d">工作技能</a> <a href="/tags/投资/" style="font-size: 12px; color: #ccc">投资</a> <a href="/tags/武侠/" style="font-size: 12px; color: #ccc">武侠</a> <a href="/tags/沟通技巧/" style="font-size: 12px; color: #ccc">沟通技巧</a> <a href="/tags/炒股/" style="font-size: 12px; color: #ccc">炒股</a> <a href="/tags/表变更平台/" style="font-size: 25.5px; color: #404040">表变更平台</a> <a href="/tags/读书笔记/" style="font-size: 25.5px; color: #404040">读书笔记</a>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">对MySQL关于order by+limit理解的一个误区</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-11T23:48:44+08:00">
+                2017-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>今天业务碰到一个线上问题,业务order by字段shopcode，用limit m,n做分页，希望按照shopcode排序获取所有的数据，但是遍历完一遍，发现有的数据没有获取到。<br>挺奇怪的，于是做了个实验，复现了情景。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show create table shop;</div><div class="line">+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table | Create Table                                                                                                                                                                                                                                                          |</div><div class="line">+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| shop  | CREATE TABLE `shop` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `name` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT &apos;&apos;,</div><div class="line">  `shopcode` int(11) NOT NULL DEFAULT &apos;0&apos;,</div><div class="line">  PRIMARY KEY (`id`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |</div><div class="line">+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; insert into shop(name,shopcode) values(&apos;a&apos;,10),(&apos;b&apos;,10),(&apos;c&apos;,10),(&apos;d&apos;,10),(&apos;e&apos;,10),(&apos;f&apos;,10),(&apos;g&apos;,10),(&apos;h&apos;,10),(&apos;i&apos;,10),(&apos;j&apos;,10);</div><div class="line">Query OK, 10 rows affected (0.00 sec)</div><div class="line">Records: 10  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; select * from shop;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  1 | a    |       10 |</div><div class="line">|  2 | b    |       10 |</div><div class="line">|  3 | c    |       10 |</div><div class="line">|  4 | d    |       10 |</div><div class="line">|  5 | e    |       10 |</div><div class="line">|  6 | f    |       10 |</div><div class="line">|  7 | g    |       10 |</div><div class="line">|  8 | h    |       10 |</div><div class="line">|  9 | i    |       10 |</div><div class="line">| 10 | j    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">10 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 0,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">| 10 | j    |       10 |</div><div class="line">|  2 | b    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.09 sec)</div><div class="line">mysql&gt; select * from shop order by shopcode limit 2,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  3 | c    |       10 |</div><div class="line">|  4 | d    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 4,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  5 | e    |       10 |</div><div class="line">|  6 | f    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 6,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  7 | g    |       10 |</div><div class="line">|  8 | h    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 8,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  2 | b    |       10 |</div><div class="line">| 10 | j    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
+<p>我们发现 limit 0,2和limit 8,2的结果是一样的，看来原先对order by的理解有问题， 原来以为是先对shopcode整体排好序，再取对应分页的数据，查了下官方文档：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">If you combine LIMIT row_count with ORDER BY, MySQL stops sorting as soon as it has found the first row_count rows of the sorted result, rather than sorting the entire result. </div><div class="line">If ordering is done by using an index, this is very fast. </div><div class="line">If a filesort must be done, all rows that match the query without the LIMIT clause are selected, and most or all of them are sorted, before the first row_count are found. </div><div class="line">After the initial rows have been found, MySQL does not sort any remainder of the result set.</div></pre></td></tr></table></figure>
+<p>上面官方文档里面有提到如果你将Limit row_count与order by混用，mysql会找到排序的row_count行后立马返回，而不是排序整个查询结果再返回。</p>
+<p>为什么分页会不准呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">If multiple rows have identical values in the ORDER BY columns, the server is free to return those rows in any order, and may do so differently depending on the overall execution plan.</div><div class="line">In other words, the sort order of those rows is nondeterministic with respect to the nonordered columns.</div></pre></td></tr></table></figure>
+<p>如果order by的字段有多个行都有相同的值，mysql是会随机的顺序返回查询结果的，具体依赖对应的执行计划。</p>
+<p>那这种情况应该怎么解决呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">If it is important to ensure the same row order with and without LIMIT, include additional columns in the ORDER BY clause to make the order deterministic. </div><div class="line">For example, if id values are unique, you can make rows for a given category value appear in id order by sorting like this:</div></pre></td></tr></table></figure>
+<p>如果想在Limit存在或不存在的情况下，都保证排序结果相同，可以额外加一个排序条件。例如id字段是唯一的，可以考虑在排序字段中额外加个id排序去确保顺序稳定。</p>
+<p>如果SQL改成 select * from shop order by shopcode,id limit M,N。遍历去取数据妥妥没问题了。</p>
+<p>官方文档：<a href="https://dev.mysql.com/doc/refman/5.6/en/limit-optimization.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.6/en/limit-optimization.html</a></p>
+
       
     </div>
     
     
     
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>赏杯咖啡?</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="DaMing 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="DaMing 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    DaMing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://daminger.github.io/2017/12/11/mysql-orderby/" title="对MySQL关于order by+limit理解的一个误区">https://daminger.github.io/2017/12/11/mysql-orderby/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/orderby/" rel="tag"># orderby</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/10/mysql-charset/" rel="next" title="MySQL字符集备注">
+                <i class="fa fa-chevron-left"></i> MySQL字符集备注
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
   </div>
 
 

@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://daminger.github.io/2017/12/11/mysql-orderby/</loc>
+    <lastmod>2017-12-11T15:51:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>对MySQL关于order by+limit理解的一个误区</title>
+        <pubTime>2017-12-11T15:48:44.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+        <tag>orderby</tag>
+         
+         
+           
+             
+              <breadCrumb title="MySQL" url="https://daminger.github.io/categories/MySQL/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://daminger.github.io/2017/12/10/mysql-charset/</loc>
     <lastmod>2017-12-10T05:20:49.000Z</lastmod>
     <data>

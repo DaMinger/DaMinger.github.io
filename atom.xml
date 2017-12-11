@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>
-  <updated>2017-12-10T05:20:49.000Z</updated>
+  <updated>2017-12-11T15:51:46.000Z</updated>
   <id>https://daminger.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>对MySQL关于order by+limit理解的一个误区</title>
+    <link href="https://daminger.github.io/2017/12/11/mysql-orderby/"/>
+    <id>https://daminger.github.io/2017/12/11/mysql-orderby/</id>
+    <published>2017-12-11T15:48:44.000Z</published>
+    <updated>2017-12-11T15:51:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天业务碰到一个线上问题,业务order by字段shopcode，用limit m,n做分页，希望按照shopcode排序获取所有的数据，但是遍历完一遍，发现有的数据没有获取到。<br>挺奇怪的，于是做了个实验，复现了情景。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show create table shop;</div><div class="line">+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| Table | Create Table                                                                                                                                                                                                                                                          |</div><div class="line">+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">| shop  | CREATE TABLE `shop` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `name` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT &apos;&apos;,</div><div class="line">  `shopcode` int(11) NOT NULL DEFAULT &apos;0&apos;,</div><div class="line">  PRIMARY KEY (`id`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |</div><div class="line">+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; insert into shop(name,shopcode) values(&apos;a&apos;,10),(&apos;b&apos;,10),(&apos;c&apos;,10),(&apos;d&apos;,10),(&apos;e&apos;,10),(&apos;f&apos;,10),(&apos;g&apos;,10),(&apos;h&apos;,10),(&apos;i&apos;,10),(&apos;j&apos;,10);</div><div class="line">Query OK, 10 rows affected (0.00 sec)</div><div class="line">Records: 10  Duplicates: 0  Warnings: 0</div><div class="line"></div><div class="line">mysql&gt; select * from shop;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  1 | a    |       10 |</div><div class="line">|  2 | b    |       10 |</div><div class="line">|  3 | c    |       10 |</div><div class="line">|  4 | d    |       10 |</div><div class="line">|  5 | e    |       10 |</div><div class="line">|  6 | f    |       10 |</div><div class="line">|  7 | g    |       10 |</div><div class="line">|  8 | h    |       10 |</div><div class="line">|  9 | i    |       10 |</div><div class="line">| 10 | j    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">10 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 0,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">| 10 | j    |       10 |</div><div class="line">|  2 | b    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.09 sec)</div><div class="line">mysql&gt; select * from shop order by shopcode limit 2,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  3 | c    |       10 |</div><div class="line">|  4 | d    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 4,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  5 | e    |       10 |</div><div class="line">|  6 | f    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 6,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  7 | g    |       10 |</div><div class="line">|  8 | h    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; select * from shop order by shopcode limit 8,2;</div><div class="line">+----+------+----------+</div><div class="line">| id | name | shopcode |</div><div class="line">+----+------+----------+</div><div class="line">|  2 | b    |       10 |</div><div class="line">| 10 | j    |       10 |</div><div class="line">+----+------+----------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure><p>我们发现 limit 0,2和limit 8,2的结果是一样的，看来原先对order by的理解有问题， 原来以为是先对shopcode整体排好序，再取对应分页的数据，查了下官方文档：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">If you combine LIMIT row_count with ORDER BY, MySQL stops sorting as soon as it has found the first row_count rows of the sorted result, rather than sorting the entire result. </div><div class="line">If ordering is done by using an index, this is very fast. </div><div class="line">If a filesort must be done, all rows that match the query without the LIMIT clause are selected, and most or all of them are sorted, before the first row_count are found. </div><div class="line">After the initial rows have been found, MySQL does not sort any remainder of the result set.</div></pre></td></tr></table></figure><p>上面官方文档里面有提到如果你将Limit row_count与order by混用，mysql会找到排序的row_count行后立马返回，而不是排序整个查询结果再返回。</p><p>为什么分页会不准呢？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">If multiple rows have identical values in the ORDER BY columns, the server is free to return those rows in any order, and may do so differently depending on the overall execution plan.</div><div class="line">In other words, the sort order of those rows is nondeterministic with respect to the nonordered columns.</div></pre></td></tr></table></figure><p>如果order by的字段有多个行都有相同的值，mysql是会随机的顺序返回查询结果的，具体依赖对应的执行计划。</p><p>那这种情况应该怎么解决呢？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">If it is important to ensure the same row order with and without LIMIT, include additional columns in the ORDER BY clause to make the order deterministic. </div><div class="line">For example, if id values are unique, you can make rows for a given category value appear in id order by sorting like this:</div></pre></td></tr></table></figure><p>如果想在Limit存在或不存在的情况下，都保证排序结果相同，可以额外加一个排序条件。例如id字段是唯一的，可以考虑在排序字段中额外加个id排序去确保顺序稳定。</p><p>如果SQL改成 select * from shop order by shopcode,id limit M,N。遍历去取数据妥妥没问题了。</p><p>官方文档：<a href="https://dev.mysql.com/doc/refman/5.6/en/limit-optimization.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.6/en/limit-optimization.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;今天业务碰到一个线上问题,业务order by字段shopcode，用limit m,n做分页，希望按照shopcode排序获取所有的数据，但是遍历完一遍，发现有的数据没有获取到。&lt;br&gt;挺奇怪的，于是做了个实验，复现了情景。&lt;/p&gt;
+&lt;figure class=&quot;high
+      
+    
+    </summary>
+    
+      <category term="MySQL" scheme="https://daminger.github.io/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="https://daminger.github.io/tags/MySQL/"/>
+    
+      <category term="orderby" scheme="https://daminger.github.io/tags/orderby/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL字符集备注</title>
@@ -570,36 +598,6 @@
       <category term="武侠" scheme="https://daminger.github.io/tags/%E6%AD%A6%E4%BE%A0/"/>
     
       <category term="古龙" scheme="https://daminger.github.io/tags/%E5%8F%A4%E9%BE%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>15个写出高效率的Email的技巧</title>
-    <link href="https://daminger.github.io/2017/10/02/how_to_write_email/"/>
-    <id>https://daminger.github.io/2017/10/02/how_to_write_email/</id>
-    <published>2017-10-02T09:39:34.000Z</published>
-    <updated>2017-10-02T12:01:18.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>写邮件是我们日常工作经常做的一件事，如何写出一封高效率的Email并让人喜欢呢？在网上发现一个PDF，给出很多建议。<br><div class="row">    <embed src="http://u.osu.edu/newark4150/files/2015/09/15-Tips-for-Writing-Effective-Email-19lzbnd.pdf" width="100%" height="550" type="application/pdf"></div><br>Tips:</p><ul><li>确定您期望的结果，花点时间想清楚到底想让收件人知道什么</li><li>快速准确的回答，直接回答要点，用简短词语和关键字</li><li>邮件中清晰的叙述出好处</li><li>KISS原则， Keep it simple, stupid，邮件内容简短并且让人非常容易理解</li><li>基于事实陈述</li><li>保持自我介绍信息的简洁</li><li>注意邮件内容在网页和手机端的展示效果</li><li>避免过度赞美</li><li>回复邮件带有友好的话语，例如“Enjoy your weekend!”</li><li>个人签名中，个人信息清晰明了，方便联系</li><li>邮件布局清晰明了，让不同层次的人去抓他们关注的重点</li><li>邮件字体，加粗和标注颜色的字体都是重点信息，避免无效信息高亮显示</li><li>尽量减少问题，只提出最重要的问题，分解成细节，拒绝提出太宽泛的问题</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;写邮件是我们日常工作经常做的一件事，如何写出一封高效率的Email并让人喜欢呢？在网上发现一个PDF，给出很多建议。&lt;br&gt;
-
-	&lt;div class=&quot;row&quot;&gt;
-    &lt;embed src=&quot;http://u.osu.edu/newark4150/files/2015
-      
-    
-    </summary>
-    
-      <category term="工作技能" scheme="https://daminger.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
-    
-    
-      <category term="工作技能" scheme="https://daminger.github.io/tags/%E5%B7%A5%E4%BD%9C%E6%8A%80%E8%83%BD/"/>
-    
-      <category term="Email" scheme="https://daminger.github.io/tags/Email/"/>
     
   </entry>
   
