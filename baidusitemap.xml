@@ -4,6 +4,50 @@
 
     
   <url>
+    <loc>https://daminger.github.io/2017/12/24/redis-case-1/</loc>
+    <lastmod>2017-12-23T17:22:31.000Z</lastmod>
+    <data>
+        <display>
+        <title>Redis不可写问题追踪</title>
+        <pubTime>2017-12-23T17:20:14.000Z</pubTime>
+        
+        <tag>casestudy</tag>
+         
+        <tag>Redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="https://daminger.github.io/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://daminger.github.io/2017/12/24/es-case-1/</loc>
+    <lastmod>2017-12-23T16:49:45.000Z</lastmod>
+    <data>
+        <display>
+        <title>不规范ES前缀查询导致ES集群挂掉</title>
+        <pubTime>2017-12-23T16:47:53.000Z</pubTime>
+        
+        <tag>ELK</tag>
+         
+        <tag>casestudy</tag>
+         
+         
+           
+             
+              <breadCrumb title="ELK" url="https://daminger.github.io/categories/ELK/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://daminger.github.io/2017/12/11/mysql-orderby/</loc>
     <lastmod>2017-12-11T15:51:46.000Z</lastmod>
     <data>

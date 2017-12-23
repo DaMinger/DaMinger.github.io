@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>
-  <updated>2017-12-11T15:51:46.000Z</updated>
+  <updated>2017-12-23T17:22:31.000Z</updated>
   <id>https://daminger.github.io/</id>
   
   <author>
@@ -15,6 +15,63 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Redis不可写问题追踪</title>
+    <link href="https://daminger.github.io/2017/12/24/redis-case-1/"/>
+    <id>https://daminger.github.io/2017/12/24/redis-case-1/</id>
+    <published>2017-12-23T17:20:14.000Z</published>
+    <updated>2017-12-23T17:22:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>线上某个Redis集群业务反馈写入不进去，读取正常，奇怪，该集群最近没有做过任何变更，内存使用率也没有满，简单连上发现确实只能读，不可写，于是查看redis log，发现一段疑问信息</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Can&apos;t save in background: fork: Cannot allocate memory</div></pre></td></tr></table></figure><p>调查发现</p><pre><code>Redis做RDB持久化需要fork出一个子进程，向系统申请内存失败，由于stop-writes-on-bgsave-error配置的是yes，即表示RDB持久化失败会拒绝业务写入操作，从而使得业务写入失败。</code></pre><p>将默认配置stop-writes-on-bgsave-error 设置为no,业务恢复正常。（这样只是当redis写硬盘快照出错时，可以让用户继续做更新操作，但是写硬盘仍然是失败的。）</p><p>彻底解决方式</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">编辑/etc/sysctl.conf添加</div><div class="line">vm.overcommit_memory=1</div><div class="line">执行sysctrl -p 使其生效</div><div class="line"></div><div class="line">vm.overcommit_memory 这个参数又是干什么的呢？</div><div class="line"></div><div class="line">Linux对大部分申请内存的请求都回复&quot;yes&quot;，以便能跑更多更大的程序。</div><div class="line">因为申请内存后，并不会马上使用内存，将这些不会使用的空闲内存分配给其它程序使用，以提高内存利用率，这种技术叫做Overcommit。</div><div class="line">一般情况下，当所有程序都不会用到自己申请的所有内存时，系统不会出问题，</div><div class="line">但是如果程序随着运行，需要的内存越来越大，在自己申请的大小范围内，不断占用更多内存，直到超出物理内存，</div><div class="line">当linux发现内存不足时，会发生OOM killer(OOM=out-of-memory)。</div><div class="line">它会选择杀死一些进程(用户态进程，不是内核线程，哪些占用内存越多，运行时间越短的进程越有可能被杀掉)，以便释放内存。</div></pre></td></tr></table></figure><p>在什么条件下，linux会发现内存不足呢？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">在Linux下有个CommitLimit 用于限制系统应用使用的内存资源:</div><div class="line">grep -i commit /proc/meminfo</div><div class="line">其中：</div><div class="line">CommitLimit是一个内存分配上限，</div><div class="line">Committed_AS是已经分配的内存大小。</div><div class="line">虚拟内存算法：</div><div class="line">CommitLimit = 物理内存 * overcommit_ratio(/proc/sys/vm/overcmmit_ratio，默认50，即50%) + swap大小</div><div class="line">它是由内核参数overcommit_ratio的控制的,当我们的应用申请内存的时候，当出现以下情况：</div><div class="line">应用程序要申请的内存 + 系统已经分配的内存（也就是Committed_AS）&gt; CommitLimit</div><div class="line">这时候就是内存不足，到了这里，操作系统要怎么办，就要祭出我们的主角“overcommit_memory”参数了（/proc/sys/vm/overcommit_memory);</div><div class="line"></div><div class="line">vm.overcommit_memory = 1 允许overcommit</div><div class="line">直接放行，系统在为应用进程分配虚拟地址空间时，完全不进行限制，</div><div class="line">这种情况下，避免了fork可能产生的失败，但由于malloc是先分配虚拟地址空间，而后通过异常陷入内核分配真正的物理内存，</div><div class="line">在内存不足的情况下，这相当于完全屏蔽了应用进程对系统内存状态的感知，即malloc总是能成功，</div><div class="line">一旦内存不足，会引起系统OOM杀进程，应用程序对于这种后果是无法预测的。</div></pre></td></tr></table></figure><p>为什么RDB持久化之前没有问题，今天突然才出现这个问题？</p><p>由于redis服务内存使用最近突然增长，因此之前没有出现RDB失败的情况，通过分析RDB文件，某类KEY最近激增导致。</p><p>改进点</p><ol><li>这是旧的Redis集群，改成aof方式</li><li>将所有redis配置stop-writes-on-bgsave-error调整为no</li><li>检查线上redis服务器vm.overcommit_memory配置</li><li>增加redis不可写监控</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;线上某个Redis集群业务反馈写入不进去，读取正常，奇怪，该集群最近没有做过任何变更，内存使用率也没有满，简单连上发现确实只能读，不可写，于是查看redis log，发现一段疑问信息&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;t
+      
+    
+    </summary>
+    
+      <category term="Redis" scheme="https://daminger.github.io/categories/Redis/"/>
+    
+    
+      <category term="casestudy" scheme="https://daminger.github.io/tags/casestudy/"/>
+    
+      <category term="Redis" scheme="https://daminger.github.io/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>不规范ES前缀查询导致ES集群挂掉</title>
+    <link href="https://daminger.github.io/2017/12/24/es-case-1/"/>
+    <id>https://daminger.github.io/2017/12/24/es-case-1/</id>
+    <published>2017-12-23T16:47:53.000Z</published>
+    <updated>2017-12-23T16:49:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>线上订单ES集群平常好好的，今天莫名奇妙所有节点全挂，导致历史订单搜索服务不可用，还好数据量不大，及时拉起来，几分钟恢复了，查看原因。</p><p>ES各个节点挂掉的日志如下，发现Java 栈溢出，疑似一个search操作导致</p><pre><code>[2017-12-19T15:46:57,063][ERROR][o.e.b.ElasticsearchUncaughtExceptionHandler] [es-node1] fatal error in thread [elasticsearch[es-node1][search][T#47]], exitingjava.lang.StackOverflowError: nullat org.apache.lucene.util.automaton.Operations.isFinite(Operations.java:1049) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11]at org.apache.lucene.util.automaton.Operations.isFinite(Operations.java:1053) ~[lucene-core-6.3.0.jar:6.3.0 a66a44513ee8191e25b477372094bfa846450316 - shalin - 2016-11-02 19:47:11]</code></pre><p>联系业务对时间点的日志，发现有个query使用了Prefix前缀匹配，手机号号码拼切了几万个9，而且使用多个Prefix，用or连接，显然这个操作是不规范的，是不是元凶呢？</p><pre><code>((Prefix{field=&apos;main.orderNumStr&apos;, prefix=&apos;138117061949999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999(后面有几千个9)&apos;, valueType=string})</code></pre><p>后去官网issue上得到了验证,具体issues:</p><p><a href="https://github.com/elastic/elasticsearch/issues/24553" target="_blank" rel="external">https://github.com/elastic/elasticsearch/issues/24553</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Prefix/Regex一类的Query，如果查询字符串过长，或者pattern本身匹配规则过于复杂，ES在解析的时候构造出来的状态机过多，之后调用一个isFinite的Lucene方法可能产生堆栈溢出。</div><div class="line">org.apache.lucene.util.automaton.Operations.isFinite代码如下：</div><div class="line"></div><div class="line">可以看到这段代码里用了递归，递归的深度取决于状态转移的数量。</div><div class="line">根据注释的说明，这是一段待完善的代码，因为使用了递归，可能导致堆栈溢出:</div><div class="line">// TODO: not great that this is recursive... in theory a</div><div class="line">// large automata could exceed java&apos;s stack</div><div class="line">private static boolean isFinite(Transition scratch, Automaton a, int state, BitSet path, BitSet visited) &#123;</div><div class="line">path.set(state);</div><div class="line">int numTransitions = a.initTransition(state, scratch);</div><div class="line">for(int t=0;t&lt;numTransitions;t++) &#123;</div><div class="line">a.getTransition(state, t, scratch);</div><div class="line">if (path.get(scratch.dest) || (!visited.get(scratch.dest) &amp;&amp; !isFinite(scratch, a, scratch.dest, path, visited))) &#123;</div><div class="line">return false;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">path.clear(state);</div><div class="line">visited.set(state);</div><div class="line">return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure><p>官方承诺在ES6.0中修复,紧急处理在业务层面限制关于模糊查询、前缀查询、正则匹配查询的字符串的长度。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;线上订单ES集群平常好好的，今天莫名奇妙所有节点全挂，导致历史订单搜索服务不可用，还好数据量不大，及时拉起来，几分钟恢复了，查看原因。&lt;/p&gt;
+&lt;p&gt;ES各个节点挂掉的日志如下，发现Java 栈溢出，疑似一个search操作导致&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[2017-1
+      
+    
+    </summary>
+    
+      <category term="ELK" scheme="https://daminger.github.io/categories/ELK/"/>
+    
+    
+      <category term="ELK" scheme="https://daminger.github.io/tags/ELK/"/>
+    
+      <category term="casestudy" scheme="https://daminger.github.io/tags/casestudy/"/>
+    
+  </entry>
   
   <entry>
     <title>对MySQL关于order by+limit理解的一个误区</title>
@@ -529,75 +586,6 @@
       <category term="投资" scheme="https://daminger.github.io/tags/%E6%8A%95%E8%B5%84/"/>
     
       <category term="炒股" scheme="https://daminger.github.io/tags/%E7%82%92%E8%82%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读书笔记【高效能人士的七个习惯】</title>
-    <link href="https://daminger.github.io/2017/10/09/book_%E9%AB%98%E6%95%88%E8%83%BD%E4%BA%BA%E5%A3%AB%E7%9A%84%E4%B8%83%E4%B8%AA%E4%B9%A0%E6%83%AF/"/>
-    <id>https://daminger.github.io/2017/10/09/book_高效能人士的七个习惯/</id>
-    <published>2017-10-08T17:09:27.000Z</published>
-    <updated>2017-10-08T17:18:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>什么是习惯？</p><p>本书中定义：“知识”、“技巧”与“意愿” 相互交织的结果。咋理解呢？</p><ul><li>知识： 做什么，为何做？</li><li>技巧： 如何做？</li><li>意愿： 想要做！</li></ul><p>七个习惯和个人感悟</p><ul><li><p>积极主动（Be Positive）个人愿景的原则，即采取主动，为自己过去、现在及未来的行为负责，并依据原则及价值观，而非情绪或外在环境来下决定，创造改变，积极面对一切。</p><ul><li>大家可能有时候想养成一个好习惯，但是对于根深蒂固的习惯，最好抱着长期作战的准备，我们大脑可不管你毅力有多强，它已经形成了对应的神经线路。比如说我要减肥，不吃猛锻炼，坚持几天，很快就弃疗了，不如改成每天坚持走路多少分钟，吃主食的时候，米饭少吃最后一两口，这里只是举个例子，想表达的意思是：积极主动的前提，我们需要找到科学而且适合自己的方法，而且在不断尝试中得到自己的认识，然后不断更新它。</li><li>举个典型的例子，很多人会提问这样的问题，怎么学好英语？帮我做个计划？我相信这部分人依赖心理很强，逃避倾向严重，遇到问题总是习惯性的寻找别人的帮忙，放弃了一次次自己解决问题的机会，即锻炼自己思维的机会，你多试试去行动就找到自己合适的方法了呗，折腾折腾啊！</li><li>高效能人士：积极主动的人绝不浅尝辄止，他们知道要为自己的抉择负责、做出的选择总是基于原则和价值观，而不是基于情绪或受限于周围条件，积极的人是变化的催生者。</li><li>低效能人士：消极的人不愿违自己的抉择负责，他们总是觉得自己是受害者，受周围环境、自己的过去和他人的拖累，他们不把自己看作是生活的主人。</li></ul></li><li><p>以终为始(Begin with the End in Mind)。自我领导的原则，个人、团队和组织在做任何计划时，均先拟出愿景和目标，并据此塑造未来，全心投注于自己最重视的原则、价值观、关系及目标之上。</p><ul><li>高效能人士：他们对于任何项目，无论大小，也不管是个人还是团队的，都下决心完成。他们确立并献身于自己生活中最重要的原则、人际关系和目标。</li><li>低效能人士：不定行动目标，他们缺乏个人原价，没有目标，他们不思考生活的意义，也不愿制定使命宣言，他们的生活总是遵循社会留下的而不是自己选择的价值观。</li></ul></li><li><p>要事第一(Put First Things First)。自我管理的原则，要事第一即实质的创造，是你的目标、愿景、价值观及要事的组织与实践，个人认为聚焦到创造性的活动上和分配时间到重要不紧急的事情（读书、写作、健身等）。</p><ul><li>高效能人士：以要事为先的人总是按照事务的重要性来安排生活并付诸实践，无论情势如何，他们的生活总是遵循自己最珍视的原则。</li><li>低效能人士：不重要的事情先做，他们总是在应付各种危机，他们之所倚无法关注最重要的事务，是因为他们总是纠缠于周围环境、过去的事情或是是非非，他们陷入成堆的琐事，被紧迫的事务弄得团团转。 </li></ul></li><li><p>双赢思维(Think Win-Win)。人际领导的原则，双赢思维是一种基于互敬，寻求互惠的思考框架与心意，鼓励我们解决问题，并协助个人找到互惠的解决办法，是一种信息、力量、认可及报酬的分享。</p><ul><li>高效能人士：能在交往中寻求双方获利、互相尊重。他们基于到处是机遇和富足的心态，基于“我们”而不是“我”，来进行思考，他们总是通过向感情账户存款来见了与他人的互信关系，多向身边的朋友或是长辈进行感情存储。</li><li>低效能人士：非赢即输，他们抱的是匮乏心态，把生活看作是一场零和游戏。他们不善于和他人沟通，总是从情感账户提款，结果是时时提防他人，陷入对抗的心理。</li></ul></li><li><p>知己知彼(Seek First to Understand, Then to Be Understood)。 移情沟通的原则，当我们改变以回答的心态，而以了解对方的心态去聆听别人，便能开启真正的沟通，增进彼此关系，知彼需要仁慈心，解己需要勇气，能平衡两者，则可大幅提升沟通的效率。</p><ul><li>高效能人士：当我们怀着理解对方的想法，而不是为了回答对方问题的心态去聆听，我们就能进行真正的沟通并建立友谊。</li><li>低效能人士：先寻求别人的理解，他们并未理解对方就先讲述自己的观点，完全机遇自己的经验货动机。他们不先对问题做出客观诊断就盲目开处方。</li></ul></li><li><p>综合综效(Synergize)。 创造性合作的原则，统合综效是创造第三种选择，既非按照我的方式，亦非你的方式，而是第三种远胜过个人之见的办法，它是互相尊重的成果，使整体获得一加一大于二的成效。</p></li><li><p>不断更新(Sharpen the Saw)。平衡的自我更新原则，在四个基本生活方面（生理、社会、情感、心智）中，不断更新自己，这个习惯提升了其它六个习惯的实施效率。</p><ul><li>高效能人士：在身体、社会／情感、智力、精神，不断更新自己。</li><li>低效能人士：没有自我更新、自我改善的规划。</li><li>简单理解就是不断反思，调整自己的规划。</li></ul></li></ul><p>成熟的哪三个阶段？</p><p>在本书里面对成熟的定义：成熟模式图（Maturity Continuum), 具体分三个阶段</p><ul><li>依赖期，你照顾我，你为我的得失成败负责。</li><li>独立期，我可以做到，我可以负责，我可以靠自己，我有权选择。</li><li>互赖期，我们可以做到，我们可以合作，我们可以融合彼此的智慧和能力，共创前程。</li></ul><p>还有一点感触比较深</p><ul><li>仅有事业成功只能算成功了一半，唯有兼顾事业、家庭、人际关系、个人成长等人生其它层面的和谐发展才是真正的成功。</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;什么是习惯？&lt;/p&gt;
-&lt;p&gt;本书中定义：“知识”、“技巧”与“意愿” 相互交织的结果。咋理解呢？&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;知识： 做什么，为何做？&lt;/li&gt;
-&lt;li&gt;技巧： 如何做？&lt;/li&gt;
-&lt;li&gt;意愿： 想要做！&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;七个习惯和个人感悟&lt;/p
-      
-    
-    </summary>
-    
-      <category term="读书笔记" scheme="https://daminger.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="读书笔记" scheme="https://daminger.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="个人成长" scheme="https://daminger.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读书笔记【流星蝴蝶剑】</title>
-    <link href="https://daminger.github.io/2017/10/05/book_%E6%B5%81%E6%98%9F%E8%9D%B4%E8%9D%B6%E5%89%91/"/>
-    <id>https://daminger.github.io/2017/10/05/book_流星蝴蝶剑/</id>
-    <published>2017-10-05T05:33:30.000Z</published>
-    <updated>2017-10-05T07:00:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>一个人若有很深的心机，很大的阴谋，就绝不会做错事。</p></blockquote><p>#</p><blockquote><p>问题并不在有几成机会，而在于你能把握机会。若是真的能完全把握机会，一成机会也已足够。</p></blockquote><p>#</p><blockquote><p>人与人之间，好像总有种奇怪而愚昧的现象。<br>他们总想以伤害别人来保护自己，他们伤害的却总是自己最亲近的！<br>因为他们只能伤害到这些人，却忘了他们伤害到这些人的时候，同时也伤害了自己。<br>所以他们受到的伤害也比别人更深。<br>所以他们自己犯了错，自己痛恨自己时，就拼命想去伤害别人。  </p></blockquote><p>#</p><blockquote><p>流星的光芒虽短促，但天上还有什么星能比它更灿烂，辉煌！<br>当流星出现的时候，就算是永恒不变的星座，也夺不去它的光芒。<br>蝴蝶的生命是脆弱的，甚至比最鲜艳的花还脆弱。<br>可是它永远是活在春天里。 它美丽，它自由，它飞翔。<br>它的生命虽短促却芬芳。<br>只有剑，才比较接近永恒。<br>一个剑客的光芒与生命，往往就在他手里握着的剑上。<br>但剑若也有情，它的光芒是否也就会变得和流星一样短促。 </p></blockquote><p>#</p><blockquote><p>男人就应该像个男人，说男人的话，做男人的事。</p></blockquote><p>#</p><blockquote><p>世上的确有很多的事都比死困难的多，痛苦的多！</p></blockquote><p>#</p><blockquote><p>尽量想法子让敌人低估你，但却绝不要低估了你的敌人。</p></blockquote><p>#</p><blockquote><p>寂寞本也有一种清淡的乐趣。</p></blockquote><p>#</p><blockquote><p>如果失去是苦，你还怕不怕付出，如果坠落是苦，你还要不要幸福，如果迷乱是苦，再开始还是结束，如果追求是苦，这是坚强还是执迷不悟</p></blockquote><p>#</p><blockquote><p>每个人都一定要为自己准备好一条最后的退路，你也许永远都不会走到那一步，但你必须要先有准备。</p></blockquote><p>#</p><blockquote><p>真正的朋友就和真正的仇敌一样，平时的确不容易看得出。</p></blockquote><p>#</p><blockquote><p>就因为不容易，所以才有趣，越不容易越有趣。</p></blockquote><p>#</p><blockquote><p>我只问你，你活过没有？</p></blockquote><p>#</p><blockquote><p>聪明的女人都知道对付男人有种最好的战略，那就是让男人觉得她软弱。</p></blockquote><p>#</p><blockquote><p>一个人要别人为他做事的时候，最好先问问自己能为对方做什么。</p></blockquote><p>#</p><blockquote><p>爱情本就是种最奇妙的情感，既没有人能了解，更没有人能控制，它不像友情，友情由累积而深厚，爱情却是突然发生的。</p></blockquote><p>#</p><blockquote><p>有时逃避只不过是种休息，让你有更多的勇气去面对人生。</p></blockquote><p>#</p><blockquote><p>黑暗无论多么长，光明迟早总是会来的。<br>黑夜无论多么长，总有天亮的时候。</p></blockquote><p>#</p><blockquote><p>老伯永远不会等到要吃梨时候才种树，他早已撒下种子。每粒种子都随时可能开花结果。</p></blockquote><p>#</p><blockquote><p>你最好能令敌人低估自己的力量，否则你就最好不要有敌人。</p></blockquote><p>#</p><blockquote><p>有时一个人活着并不是为了享受欢乐，而是为了忍受痛苦，因为活着也只是种责任，谁也不能逃避。</p></blockquote><p>#</p><blockquote><p>就算天下最会说谎的人，眸子也不会说谎的。</p></blockquote><p>#</p><blockquote><p>控制男人的法子却有两种。一种是尽量让他们觉得你柔弱，让他们来照顾你、保护你，而且还要让他们以此为荣。<br>还有一种就是尽量打击他们，尽量摧毁他们的尊严，要他们在你面前永远都抬不起头来。<br>那么你只要对他们略加青睐，甚至只要对他们笑一笑，他们都会觉得很光荣，很感激。<br>你若真的能让男人有这种感觉，他们就不惜为你做任何事了  </p></blockquote><p>#</p><blockquote><p>因为你永远不知道自己什么时候才会走到那一步，那种情况就像是抽筋，随时随刻都会来的，让你根本没有防备的机会。</p></blockquote><p>#</p><blockquote><p> 年轻人和老人之间，本就有着一段很大的距离，无论对什么事的看法，都很少会完全相同的！<br>所以老人总觉得年轻人幼稚愚蠢，正如年轻人对老人的看法一样。<br>年轻人虽然应该尊敬老人的思想和智慧。但尊敬并不是赞成！服从也不是！ </p></blockquote><p>#</p><blockquote><p>一个男人若为了一个女人而沉迷不能自拔，这人就根本不值得重视，所以你也不必去同情他。</p></blockquote><p>#</p><blockquote><p>一个人遇到很大的困难和危险时，往往就会变得很多疑，对每个人都怀疑，觉得世上已没有一个他可以信任的人。这才是他的致命伤，那困难和危险也许并不能伤害到他，但‘怀疑’却往往会要了他的命。</p></blockquote><p>#</p><blockquote><p>有时候只要肯给别人一丝温情，就能令那人感激终生，有时你只要肯付出一丝温情，就能回收终生的欢愉。<br>只可惜世人偏偏要将这一点温情吝惜，偏偏要用讥嘲和轻蔑去唤起别人的仇恨！</p></blockquote><p>#</p><blockquote><p>欲望和财富对一个人的作用，就好像醋对水一样，加了醋的水一定会变酸，有了欲望和财富，一个人也就很快就会变了.</p></blockquote><p>#</p><blockquote><p>光阴似箭，日月如梭，绿鬓少年，忽已白头，人生一梦，梦醒便休，终日碌碌，所为何由？</p></blockquote><p>#</p><blockquote><p>一个人若懂得利用别人‘恶的’那一面，懂得利用别人的贪婪、虚荣、嫉妒、仇恨，他已经可以算是个很了不起的人。但你却比那些人更高一着，你还懂得利用别人‘善’的一面，还懂得利用别人的感激、同情和义气</p></blockquote><p>#</p><blockquote><p>惟一不同的是，男人喝了酒后，会想到各式各样的女人，很多不同的女人；女人喝了酒后，却往往只会想到一个男人。<br>大多数时候她想到的是一个抛弃了她的男人。</p></blockquote><p>#</p><blockquote><p>有时逃避只不过是种休息，让你有更多的勇气去面对人生。<br>所以你觉得太紧张时，若能逃避一下，也蛮不错的，但却千万不可逃避得太久，因为你所逃避的问题，绝不会因你逃避而解决的。你只能在逃避中休息，绝不能“死”在逃避里。</p></blockquote><p>#</p><blockquote><p>也许爱情就是这么回事。你若想享受爱情的甜蜜，就必须同时忍受它的烦恼和痛苦。</p></blockquote><p>#</p><blockquote><p>他忘了将人与人之间的情感算进去。也许走上大多数阴谋失败之路的人，都因为忘了将这一点算进去。人与人之间的情感本就是无法计算的，但却能决定一切，改变一切。正因为如此，所以人性永存，阴谋必败。</p></blockquote><p># </p><blockquote><p>你想赚得多，就得花得多，只有会花钱的人才能赚得到更多的钱，这道理你不明白？</p></blockquote><p>#</p><blockquote><p>一个女人心目中的好丈夫，并不在乎他的年纪大小，只看他是不是懂得对妻子温柔体贴，是不是一个顶天立地的男子汉。</p></blockquote><p>#</p><blockquote><p>女人若想伤害一个人的时候，好像总能找出最恶毒的话来，这好像是她们天生的本事，正如响尾蛇生出来就是有毒的。</p></blockquote><p>#</p><blockquote><p>一个在不断追寻的人，内心挣扎得也许比钓钩上的鱼更痛苦，因为他虽然不断追寻，却一直不知道自己追寻的人究竟是什么。这样的追寻最容易令人厌倦</p></blockquote><p>#</p><blockquote><p>你若想抓住男人的心，就得随时随地注意自己的姿态。不但走路的样子要好看，坐着、站着、吃饭的时候，甚至连睡觉的时候都要尽量保持你最好看的姿态，就算你只不过是个妓女，也一定要男人觉得你很高贵，这样，男人才会死心塌地的喜欢你。</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;一个人若有很深的心机，很大的阴谋，就绝不会做错事。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;#&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;问题并不在有几成机会，而在于你能把握机会。若是真的能完全把握机会，一成机会也已足够。&lt;/p&gt;
-&lt;/blockq
-      
-    
-    </summary>
-    
-      <category term="读书笔记" scheme="https://daminger.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="读书笔记" scheme="https://daminger.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="武侠" scheme="https://daminger.github.io/tags/%E6%AD%A6%E4%BE%A0/"/>
-    
-      <category term="古龙" scheme="https://daminger.github.io/tags/%E5%8F%A4%E9%BE%99/"/>
     
   </entry>
   

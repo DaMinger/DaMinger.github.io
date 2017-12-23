@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="Redis," />
+  <meta name="keywords" content="casestudy,Redis," />
 
 
 
@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="Redis集群内存暴增，需要下集群中哪类key占用内存比较多，简述下我的思路和操作步骤 1.去找个slave,bgsave一下，生成rdb文件 2.使用rdb工具分析rdb文件生成csv文件 rdb -c memory redis6379.rdb --bytes 0 -f memory.csv  查看下csv文件 cat memory.csv    database,type,key,size_i">
-<meta name="keywords" content="Redis">
+<meta name="description" content="线上某个Redis集群业务反馈写入不进去，读取正常，奇怪，该集群最近没有做过任何变更，内存使用率也没有满，简单连上发现确实只能读，不可写，于是查看redis log，发现一段疑问信息 1Can&amp;apos;t save in background: fork: Cannot allocate memory 调查发现 Redis做RDB持久化需要fork出一个子进程，向系统申请内存失败， 由于stop">
+<meta name="keywords" content="casestudy,Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis_分析集群中key的内存情况">
-<meta property="og:url" content="https://daminger.github.io/2017/11/15/redis-analyze-memory/index.html">
+<meta property="og:title" content="Redis不可写问题追踪">
+<meta property="og:url" content="https://daminger.github.io/2017/12/24/redis-case-1/index.html">
 <meta property="og:site_name" content="DaMing&#39;s Notes">
-<meta property="og:description" content="Redis集群内存暴增，需要下集群中哪类key占用内存比较多，简述下我的思路和操作步骤 1.去找个slave,bgsave一下，生成rdb文件 2.使用rdb工具分析rdb文件生成csv文件 rdb -c memory redis6379.rdb --bytes 0 -f memory.csv  查看下csv文件 cat memory.csv    database,type,key,size_i">
+<meta property="og:description" content="线上某个Redis集群业务反馈写入不进去，读取正常，奇怪，该集群最近没有做过任何变更，内存使用率也没有满，简单连上发现确实只能读，不可写，于是查看redis log，发现一段疑问信息 1Can&amp;apos;t save in background: fork: Cannot allocate memory 调查发现 Redis做RDB持久化需要fork出一个子进程，向系统申请内存失败， 由于stop">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-15T14:28:06.000Z">
+<meta property="og:updated_time" content="2017-12-23T17:22:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis_分析集群中key的内存情况">
-<meta name="twitter:description" content="Redis集群内存暴增，需要下集群中哪类key占用内存比较多，简述下我的思路和操作步骤 1.去找个slave,bgsave一下，生成rdb文件 2.使用rdb工具分析rdb文件生成csv文件 rdb -c memory redis6379.rdb --bytes 0 -f memory.csv  查看下csv文件 cat memory.csv    database,type,key,size_i">
+<meta name="twitter:title" content="Redis不可写问题追踪">
+<meta name="twitter:description" content="线上某个Redis集群业务反馈写入不进去，读取正常，奇怪，该集群最近没有做过任何变更，内存使用率也没有满，简单连上发现确实只能读，不可写，于是查看redis log，发现一段疑问信息 1Can&amp;apos;t save in background: fork: Cannot allocate memory 调查发现 Redis做RDB持久化需要fork出一个子进程，向系统申请内存失败， 由于stop">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://daminger.github.io/2017/11/15/redis-analyze-memory/"/>
+  <link rel="canonical" href="https://daminger.github.io/2017/12/24/redis-case-1/"/>
 
 
 
 
 
-  <title>Redis_分析集群中key的内存情况 | DaMing's Notes</title>
+  <title>Redis不可写问题追踪 | DaMing's Notes</title>
   
 
 
@@ -301,7 +301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/11/15/redis-analyze-memory/">
+    <link itemprop="mainEntityOfPage" href="https://daminger.github.io/2017/12/24/redis-case-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaMing">
@@ -318,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Redis_分析集群中key的内存情况</h1>
+          <h1 class="post-title" itemprop="name headline">Redis不可写问题追踪</h1>
         
 
         <div class="post-meta">
@@ -330,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T22:11:32+08:00">
-                2017-11-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T01:20:14+08:00">
+                2017-12-24
               </time>
             
 
@@ -390,39 +390,26 @@
       
 
       
-        <p>Redis集群内存暴增，需要下集群中哪类key占用内存比较多，简述下我的思路和操作步骤</p>
-<p>1.去找个slave,bgsave一下，生成rdb文件</p>
-<p>2.使用rdb工具分析rdb文件生成csv文件</p>
-<pre><code>rdb -c memory redis6379.rdb --bytes 0 -f memory.csv
-
-查看下csv文件
-cat memory.csv   
-database,type,key,size_in_bytes,encoding,num_elements,len_largest_element
-0,string,ops.073a7ae3d0fec21cd13c7a34d497cb70,304,string,210,210
-0,string,test12,48,string,8,8
-0,string,ops.5c8b7a27fd1597ef3202e9e4906cb630,304,string,194,194
-0,hash,bach-price-dev.2ssku_inventory_price_100016002,5651,ziplist,323,9
-0,set,monitor_device_list,83588,hashtable,920,37
-0,string,ops.e58ccdb5730ae3dbdbcb7103747b228b,304,string,194,194
-0,string,test4,48,string,8,8
-0,string,ops.8bf1f83967a11fffb7ed55ac1f42fa10,304,string,213,213
-0,string,test17,48,string,8,8
-
-把第一行数据表头去了，方便导入MySQL分析
-</code></pre><p>3.创建MySQL统计表</p>
-<pre><code>创建统计表
-create table memory_count(
-id int primary key auto_increment,
-db int not null default 0 ,
-key_type varchar(20) not null,
-key_name varchar(200) not null,
-key_size_in_bytes bigint not null,
-key_encoding varchar(20) not null,
-key_num_elements bigint not null,
-key_len_largest_element  bigint not null);
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">show create table memory_count;</div><div class="line">memory_count | CREATE TABLE `memory_count` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `db` int(11) NOT NULL DEFAULT &apos;0&apos;,</div><div class="line">  `key_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,</div><div class="line">  `key_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,</div><div class="line">  `key_size_in_bytes` bigint(20) NOT NULL,</div><div class="line">  `key_encoding` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,</div><div class="line">  `key_num_elements` bigint(20) NOT NULL,</div><div class="line">  `key_len_largest_element` bigint(20) NOT NULL,</div><div class="line">  PRIMARY KEY (`id`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</div></pre></td></tr></table></figure>
-<p>4.导入到MySQL</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">把文件移动到这个变量路径下</div><div class="line">SHOW VARIABLES LIKE &quot;secure_file_priv&quot;; </div><div class="line"></div><div class="line">load语句</div><div class="line">LOAD DATA INFILE &apos;/var/lib/mysql-files/memory.csv&apos; </div><div class="line">INTO TABLE  memory_count</div><div class="line">FIELDS TERMINATED BY &apos;,&apos; </div><div class="line">OPTIONALLY ENCLOSED BY &apos;&quot;&apos; </div><div class="line">ESCAPED BY &apos;&quot;&apos; </div><div class="line">LINES TERMINATED BY &apos;\n&apos;</div><div class="line">(db,key_type,key_name,key_size_in_bytes,key_encoding,key_num_elements,key_len_largest_element)</div><div class="line"></div><div class="line">到了MySQL里面，可以随便定制SQL统计语句了</div><div class="line">select left(key_name, 20),sum(key_size_in_bytes) from memory_count group by left(key_name, 20) order by sum(key_size_in_bytes) desc;</div></pre></td></tr></table></figure>
+        <p>线上某个Redis集群业务反馈写入不进去，读取正常，奇怪，该集群最近没有做过任何变更，内存使用率也没有满，简单连上发现确实只能读，不可写，于是查看redis log，发现一段疑问信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Can&apos;t save in background: fork: Cannot allocate memory</div></pre></td></tr></table></figure>
+<p>调查发现</p>
+<pre><code>Redis做RDB持久化需要fork出一个子进程，向系统申请内存失败，
+由于stop-writes-on-bgsave-error配置的是yes，
+即表示RDB持久化失败会拒绝业务写入操作，从而使得业务写入失败。
+</code></pre><p>将默认配置stop-writes-on-bgsave-error 设置为no,业务恢复正常。（这样只是当redis写硬盘快照出错时，可以让用户继续做更新操作，但是写硬盘仍然是失败的。）</p>
+<p>彻底解决方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">编辑/etc/sysctl.conf添加</div><div class="line">vm.overcommit_memory=1</div><div class="line">执行sysctrl -p 使其生效</div><div class="line"></div><div class="line">vm.overcommit_memory 这个参数又是干什么的呢？</div><div class="line"></div><div class="line">Linux对大部分申请内存的请求都回复&quot;yes&quot;，以便能跑更多更大的程序。</div><div class="line">因为申请内存后，并不会马上使用内存，将这些不会使用的空闲内存分配给其它程序使用，以提高内存利用率，这种技术叫做Overcommit。</div><div class="line">一般情况下，当所有程序都不会用到自己申请的所有内存时，系统不会出问题，</div><div class="line">但是如果程序随着运行，需要的内存越来越大，在自己申请的大小范围内，不断占用更多内存，直到超出物理内存，</div><div class="line">当linux发现内存不足时，会发生OOM killer(OOM=out-of-memory)。</div><div class="line">它会选择杀死一些进程(用户态进程，不是内核线程，哪些占用内存越多，运行时间越短的进程越有可能被杀掉)，以便释放内存。</div></pre></td></tr></table></figure>
+<p>在什么条件下，linux会发现内存不足呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">在Linux下有个CommitLimit 用于限制系统应用使用的内存资源:</div><div class="line">grep -i commit /proc/meminfo</div><div class="line">其中：</div><div class="line">CommitLimit是一个内存分配上限，</div><div class="line">Committed_AS是已经分配的内存大小。</div><div class="line">虚拟内存算法：</div><div class="line">CommitLimit = 物理内存 * overcommit_ratio(/proc/sys/vm/overcmmit_ratio，默认50，即50%) + swap大小</div><div class="line">它是由内核参数overcommit_ratio的控制的,当我们的应用申请内存的时候，当出现以下情况：</div><div class="line">应用程序要申请的内存 + 系统已经分配的内存（也就是Committed_AS）&gt; CommitLimit</div><div class="line">这时候就是内存不足，到了这里，操作系统要怎么办，就要祭出我们的主角“overcommit_memory”参数了（/proc/sys/vm/overcommit_memory);</div><div class="line"></div><div class="line">vm.overcommit_memory = 1 允许overcommit</div><div class="line">直接放行，系统在为应用进程分配虚拟地址空间时，完全不进行限制，</div><div class="line">这种情况下，避免了fork可能产生的失败，但由于malloc是先分配虚拟地址空间，而后通过异常陷入内核分配真正的物理内存，</div><div class="line">在内存不足的情况下，这相当于完全屏蔽了应用进程对系统内存状态的感知，即malloc总是能成功，</div><div class="line">一旦内存不足，会引起系统OOM杀进程，应用程序对于这种后果是无法预测的。</div></pre></td></tr></table></figure>
+<p>为什么RDB持久化之前没有问题，今天突然才出现这个问题？</p>
+<p>由于redis服务内存使用最近突然增长，因此之前没有出现RDB失败的情况，通过分析RDB文件，某类KEY最近激增导致。</p>
+<p>改进点</p>
+<ol>
+<li>这是旧的Redis集群，改成aof方式</li>
+<li>将所有redis配置stop-writes-on-bgsave-error调整为no</li>
+<li>检查线上redis服务器vm.overcommit_memory配置</li>
+<li>增加redis不可写监控</li>
+</ol>
 
       
     </div>
@@ -472,7 +459,7 @@ key_len_largest_element  bigint not null);
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://daminger.github.io/2017/11/15/redis-analyze-memory/" title="Redis_分析集群中key的内存情况">https://daminger.github.io/2017/11/15/redis-analyze-memory/</a>
+    <a href="https://daminger.github.io/2017/12/24/redis-case-1/" title="Redis不可写问题追踪">https://daminger.github.io/2017/12/24/redis-case-1/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -487,6 +474,8 @@ key_len_largest_element  bigint not null);
       
         <div class="post-tags">
           
+            <a href="/tags/casestudy/" rel="tag"># casestudy</a>
+          
             <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
@@ -500,8 +489,8 @@ key_len_largest_element  bigint not null);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/12/elk-es-monitor-falcon/" rel="next" title="基于Falcon的ES监控">
-                <i class="fa fa-chevron-left"></i> 基于Falcon的ES监控
+              <a href="/2017/12/24/es-case-1/" rel="next" title="不规范ES前缀查询导致ES集群挂掉">
+                <i class="fa fa-chevron-left"></i> 不规范ES前缀查询导致ES集群挂掉
               </a>
             
           </div>
@@ -509,10 +498,6 @@ key_len_largest_element  bigint not null);
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/18/mysql-timestamp/" rel="prev" title="MySQL time_stamp字段基本用法">
-                MySQL time_stamp字段基本用法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

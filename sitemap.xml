@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daminger.github.io/2017/12/24/redis-case-1/</loc>
+    
+    <lastmod>2017-12-23T17:22:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://daminger.github.io/2017/12/24/es-case-1/</loc>
+    
+    <lastmod>2017-12-23T16:49:45.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daminger.github.io/2017/12/11/mysql-orderby/</loc>
     
     <lastmod>2017-12-11T15:51:46.000Z</lastmod>
