@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>DaMing&#39;s Notes</title>
   
-  
+  <subtitle>已转向微信公众号damingfun</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://daminger.github.io/"/>

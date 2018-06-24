@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daminger.github.io/about/index.html</loc>
+    
+    <lastmod>2018-06-24T02:30:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daminger.github.io/2017/12/24/redis-case-1/</loc>
     
     <lastmod>2017-12-23T17:22:31.000Z</lastmod>
@@ -173,13 +180,6 @@
     <loc>https://daminger.github.io/2017/10/02/how_to_write_email/</loc>
     
     <lastmod>2017-10-02T12:01:18.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://daminger.github.io/about/index.html</loc>
-    
-    <lastmod>2017-10-02T06:11:11.000Z</lastmod>
     
   </url>
   
